@@ -1,14 +1,14 @@
-import { Routes } from '@angular/router';
+import { Routes } from "@angular/router";
 
 export const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'folder/inbox',
-    pathMatch: 'full',
+    path: "",
+    redirectTo: "page/todo",
+    pathMatch: "full",
   },
   {
-    path: 'folder/:id',
+    path: "page/todo",
     loadComponent: () =>
-      import('./folder/folder.page').then((m) => m.FolderPage),
+      import("./pages/todo/todo.page").then((m) => m.TodoPage),
   },
 ];
