@@ -94,6 +94,18 @@ public static class AppConfiguration
 
         services.AddHostedService<InitializerService>();
 
+        services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                policy
+                    .WithOrigins(configuration["AllowedOrigin"]!)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+        });
+
         return services;
     }
 }
