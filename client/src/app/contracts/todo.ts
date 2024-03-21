@@ -7,3 +7,8 @@ export interface TodoDetailModel {
     createdAt: string;
     lastEditedAt: string | null;
 }
+
+export interface TodoCreateModel {
+    title: string;
+    description: string | null;
+}
