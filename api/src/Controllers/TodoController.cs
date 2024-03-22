@@ -44,22 +44,6 @@ public class TodoController : ControllerBase
         return Ok(todoItems);
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
-    {
-        var userId = _currentUserService.UserId;
-        var todoItem = await _context.Todo
-            .AsNoTracking()
-            .Where(t => t.UserId == userId && t.Id == id)
-            .ProjectToTodoDetailModel()
-            .FirstOrDefaultAsync();
-
-        if (todoItem == null)
-            return NotFound();
-
-        return Ok(todoItem);
-    }
-
     [HttpPost]
     public async Task<IActionResult> Create(TodoCreateModel model)
     {

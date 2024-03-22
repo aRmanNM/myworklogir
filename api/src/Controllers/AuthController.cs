@@ -77,7 +77,8 @@ public class AuthController : ControllerBase
                 Scopes.Email,
                 Scopes.Profile,
                 Scopes.Roles,
-                Constants.Scopes.Todo // TODO: check role and add scopes based on that
+                Constants.Scopes.Todo,
+                Constants.Scopes.WorkLog
             }.Intersect(request.GetScopes()));
 
             identity.SetDestinations(GetDestinations);

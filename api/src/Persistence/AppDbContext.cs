@@ -17,6 +17,7 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
     }
 
     public DbSet<Todo> Todo { get; set; }
+    public DbSet<WorkLog> WorkLog { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

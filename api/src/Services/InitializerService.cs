@@ -33,21 +33,20 @@ public class InitializerService : BackgroundService
     {
         var scopeManager = scope.ServiceProvider.GetRequiredService<IOpenIddictScopeManager>();
 
-        var scopeDescriptor = new OpenIddictScopeDescriptor
+        var scopeDescriptors = new List<OpenIddictScopeDescriptor>()
         {
-            Name = Constants.Scopes.Todo,
-            Resources = { "todo-api" }
+            new OpenIddictScopeDescriptor { Name = Constants.Scopes.Todo, Resources = { "todo-api" } },
+            new OpenIddictScopeDescriptor { Name = Constants.Scopes.WorkLog, Resources = { "worklog-api" } }
         };
 
-        var scopeInstance = await scopeManager.FindByNameAsync(scopeDescriptor.Name, cancellationToken);
+        foreach (var scopeDescriptor in scopeDescriptors)
+        {
+            var scopeInstance = await scopeManager.FindByNameAsync(scopeDescriptor.Name!, cancellationToken);
 
-        if (scopeInstance == null)
-        {
-            await scopeManager.CreateAsync(scopeDescriptor, cancellationToken);
-        }
-        else
-        {
-            await scopeManager.UpdateAsync(scopeInstance, scopeDescriptor, cancellationToken);
+            if (scopeInstance == null)
+                await scopeManager.CreateAsync(scopeDescriptor, cancellationToken);
+            else
+                await scopeManager.UpdateAsync(scopeInstance, scopeDescriptor, cancellationToken);
         }
     }
 
@@ -70,7 +69,10 @@ public class InitializerService : BackgroundService
                 OpenIddictConstants.Permissions.Scopes.Email,
                 OpenIddictConstants.Permissions.Scopes.Profile,
                 OpenIddictConstants.Permissions.Scopes.Roles,
+
+                // app-specific scopes
                 OpenIddictConstants.Permissions.Prefixes.Scope + Constants.Scopes.Todo,
+                OpenIddictConstants.Permissions.Prefixes.Scope + Constants.Scopes.WorkLog,
             }
         };
 

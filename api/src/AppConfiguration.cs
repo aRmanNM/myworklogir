@@ -3,8 +3,10 @@ using api.Persistence;
 using api.Persistence.Entities;
 using api.Persistence.Interceptors;
 using api.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using static api.Constants;
 
 namespace api;
 
@@ -75,21 +77,8 @@ public static class AppConfiguration
         services.AddAuthorization(options =>
         {
             // check here: https://github.com/openiddict/openiddict-core/issues/1328
-            options.AddPolicy(Constants.Policies.Todo, builder =>
-                builder.RequireAssertion(context =>
-                {
-                    var claim = context.User.FindFirst("scope");
-                    if (claim == null)
-                    {
-                        return false;
-                    }
-
-                    return claim.Value.Split(' ')
-                        .Any(s => string.Equals(s,
-                            Constants.Scopes.Todo,
-                            StringComparison.InvariantCultureIgnoreCase));
-                })
-            );
+            options.AddPolicy(Policies.Todo, builder => ContainScope(builder, Scopes.Todo));
+            options.AddPolicy(Policies.WorkLog, builder => ContainScope(builder, Scopes.WorkLog));
         });
 
         services.AddHostedService<InitializerService>();
@@ -107,5 +96,22 @@ public static class AppConfiguration
         });
 
         return services;
+    }
+
+    private static AuthorizationPolicyBuilder ContainScope(AuthorizationPolicyBuilder builder, string scopeName)
+    {
+        return builder.RequireAssertion(context =>
+        {
+            var claim = context.User.FindFirst("scope");
+            if (claim == null)
+            {
+                return false;
+            }
+
+            return claim.Value.Split(' ')
+                .Any(s => string.Equals(s,
+                    scopeName,
+                    StringComparison.InvariantCultureIgnoreCase));
+        });
     }
 }

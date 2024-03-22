@@ -16,4 +16,17 @@ public static class Mapper
             CreatedAt = t.CreatedAt,
             LastEditedAt = t.LastEditedAt
         };
+
+    public static WorkLogDetailModel MapToWorkLogDetailModel(this WorkLog w)
+        => new WorkLogDetailModel
+        {
+            Id = w.Id,
+            Title = w.Title,
+            Description = w.Description,
+            StartedAt = w.StartedAt,
+            FinishedAt = w.FinishedAt,
+            CreatedAt = w.CreatedAt,
+            LastEditedAt = w.LastEditedAt,
+            Duration = w.Duration
+        };
 }
