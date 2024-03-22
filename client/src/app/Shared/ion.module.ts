@@ -17,6 +17,8 @@ import {
   IonButton,
   IonInput,
   IonTextarea,
+  IonAccordionGroup,
+  IonAccordion,
 } from "@ionic/angular/standalone";
 
 @NgModule({
@@ -39,6 +41,8 @@ import {
     IonButton,
     IonInput,
     IonTextarea,
+    IonAccordionGroup,
+    IonAccordion,
   ],
   exports: [
     IonHeader,
@@ -58,6 +62,8 @@ import {
     IonButton,
     IonInput,
     IonTextarea,
+    IonAccordionGroup,
+    IonAccordion,
   ],
   providers: [],
 })

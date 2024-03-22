@@ -30,10 +30,35 @@ import { ModalController } from "@ionic/angular/standalone";
 
       <div id="container">
         <ion-list inset="true">
-          <ion-item *ngFor="let todo of todoDetails">
-            <ion-checkbox checked="{{ todo.isCompleted }}"></ion-checkbox>
-            <ion-label dir="auto">{{ todo.title }}</ion-label>
-          </ion-item>
+          <ion-accordion-group>
+            <ion-accordion
+              value="{{ todo.id }}"
+              *ngFor="let todo of todoDetails"
+            >
+              <ion-item slot="header">
+                <ion-checkbox
+                  (ionChange)="toggle(todo.id)"
+                  checked="{{ todo.isCompleted }}"
+                ></ion-checkbox>
+                <ion-label dir="auto">{{ todo.title }}</ion-label>
+              </ion-item>
+              <ion-item slot="content">
+                <ion-label color="dark" dir="auto">{{
+                  todo.description || "بدون توضیح"
+                }}</ion-label>
+              </ion-item>
+              <ion-item slot="content">
+                <ion-buttons slot="end">
+                  <ion-button (click)="delete(todo.id)" color="danger"
+                    >حذف</ion-button
+                  >
+                  <ion-button (click)="openModal(todo)" strong="true"
+                    >ویرایش</ion-button
+                  >
+                </ion-buttons>
+              </ion-item>
+            </ion-accordion>
+          </ion-accordion-group>
         </ion-list>
       </div>
 
@@ -97,9 +122,14 @@ export class TodoPage implements OnInit {
     });
   }
 
-  async openModal() {
+  async openModal(todo?: TodoDetailModel) {
     const modal = await this.modalCtrl.create({
       component: TodoModalComponent,
+      componentProps: {
+        id: todo?.id,
+        title: todo?.title,
+        description: todo?.description,
+      },
     });
 
     modal.present();
@@ -110,6 +140,22 @@ export class TodoPage implements OnInit {
       this.todoService.create(data).subscribe((res) => {
         this.getAll();
       });
+    } else if (role == "update") {
+      this.todoService.update(data).subscribe((res) => {
+        this.getAll();
+      });
     }
+  }
+
+  delete(id: number) {
+    this.todoService.delete(id).subscribe((res) => {
+      this.getAll();
+    });
+  }
+
+  toggle(id: number) {
+    this.todoService.toggle(id).subscribe((res) => {
+      this.getAll();
+    });
   }
 }

@@ -36,6 +36,7 @@ public class TodoController : ControllerBase
         var userId = _currentUserService.UserId;
         var todoItems = await _context.Todo
             .AsNoTracking()
+            .OrderBy(t => t.CreatedAt)
             .Where(t => t.UserId == userId)
             .ProjectToTodoDetailModel()
             .ToListAsync();
@@ -126,5 +127,24 @@ public class TodoController : ControllerBase
         var todoItem = todo.MapToTodoDetailModel();
 
         return Ok(todoItem);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var userId = _currentUserService.UserId;
+
+        var todo = await _context.Todo
+            .Where(t => t.UserId == userId && t.Id == id)
+            .FirstOrDefaultAsync();
+
+        if (todo == null)
+            return NotFound();
+
+        _context.Todo.Remove(todo);
+
+        await _context.SaveChangesAsync();
+
+        return Ok();
     }
 }
