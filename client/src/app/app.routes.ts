@@ -11,4 +11,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import("./pages/todo/todo.page").then((m) => m.TodoPage),
   },
+  {
+    path: "page/worklog",
+    loadComponent: () =>
+      import("./pages/worklog/worklog.page").then((m) => m.WorkLogComponent),
+  },
 ];

@@ -19,6 +19,7 @@ import {
   IonTextarea,
   IonAccordionGroup,
   IonAccordion,
+  IonNote,
 } from "@ionic/angular/standalone";
 
 @NgModule({
@@ -43,6 +44,7 @@ import {
     IonTextarea,
     IonAccordionGroup,
     IonAccordion,
+    IonNote
   ],
   exports: [
     IonHeader,
@@ -64,6 +66,7 @@ import {
     IonTextarea,
     IonAccordionGroup,
     IonAccordion,
+    IonNote
   ],
   providers: [],
 })

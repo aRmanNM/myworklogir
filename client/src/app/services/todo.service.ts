@@ -12,33 +12,33 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class TodoService {
-  baseUrl = environment.apiBaseUrl;
+  baseUrl = environment.apiBaseUrl + "/todo";
 
   constructor(private httpClient: HttpClient) {}
 
   getAll(): Observable<TodoDetailModel[]> {
-    return this.httpClient.get<TodoDetailModel[]>(this.baseUrl + "/todo");
+    return this.httpClient.get<TodoDetailModel[]>(this.baseUrl);
   }
 
   create(todoCreateModel: TodoCreateModel): Observable<TodoDetailModel> {
     return this.httpClient.post<TodoDetailModel>(
-      this.baseUrl + "/todo",
+      this.baseUrl,
       todoCreateModel
     );
   }
 
   update(todoUpdateModel: TodoUpdateModel): Observable<void> {
     return this.httpClient.put<void>(
-      this.baseUrl + `/todo/${todoUpdateModel.id}`,
+      this.baseUrl + `/${todoUpdateModel.id}`,
       todoUpdateModel
     );
   }
 
   delete(id: number): Observable<void> {
-    return this.httpClient.delete<void>(this.baseUrl + `/todo/${id}`);
+    return this.httpClient.delete<void>(this.baseUrl + `/${id}`);
   }
 
   toggle(id: number): Observable<void> {
-    return this.httpClient.put<void>(this.baseUrl + `/todo/${id}/toggle`, {});
+    return this.httpClient.put<void>(this.baseUrl + `/${id}/toggle`, {});
   }
 }

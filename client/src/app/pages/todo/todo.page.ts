@@ -3,15 +3,15 @@ import { Component, inject, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { addIcons } from "ionicons";
 import { addOutline } from "ionicons/icons";
-import { IonModule } from "src/app/Shared/ion.module";
+import { IonModule } from "src/app/shared/ion.module";
 import { TodoDetailModel } from "src/app/contracts/todo";
 import { TodoService } from "src/app/services/todo.service";
 import { TodoModalComponent } from "./todo.modal";
 import { ModalController } from "@ionic/angular/standalone";
 
 @Component({
-  selector: "app-todo-page",
-  template: `
+    selector: "app-todo-page",
+    template: `
     <ion-header [translucent]="true">
       <ion-toolbar>
         <ion-buttons slot="start">
@@ -29,7 +29,7 @@ import { ModalController } from "@ionic/angular/standalone";
       </ion-header>
 
       <div id="container">
-        <ion-list inset="true">
+        <ion-list>
           <ion-accordion-group>
             <ion-accordion
               value="{{ todo.id }}"
@@ -69,36 +69,19 @@ import { ModalController } from "@ionic/angular/standalone";
       </ion-fab>
     </ion-content>
   `,
-  styles: [
-    `
-      ion-menu-button {
-        color: var(--ion-color-primary);
-      }
-
-      #container strong {
-        font-size: 20px;
-        line-height: 26px;
-      }
-
-      #container p {
-        font-size: 16px;
-        line-height: 22px;
-        color: #8c8c8c;
-        margin: 0;
-      }
-
-      #container a {
-        text-decoration: none;
+    styles: [
+        `
+      #container {
       }
 
       #container ion-label {
         margin-right: 16px;
       }
     `,
-  ],
-  standalone: true,
-  providers: [TodoService],
-  imports: [IonModule, CommonModule, TodoModalComponent],
+    ],
+    standalone: true,
+    providers: [TodoService],
+    imports: [IonModule, CommonModule, TodoModalComponent]
 })
 export class TodoPage implements OnInit {
   private activatedRoute = inject(ActivatedRoute);

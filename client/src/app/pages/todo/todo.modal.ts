@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { ModalController } from "@ionic/angular/standalone";
-import { IonModule } from "src/app/Shared/ion.module";
+import { IonModule } from "src/app/shared/ion.module";
 import { TodoCreateModel, TodoUpdateModel } from "src/app/contracts/todo";
 
 @Component({

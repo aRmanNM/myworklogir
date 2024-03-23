@@ -28,6 +28,7 @@ public static class Projections
             FinishedAt = w.FinishedAt,
             CreatedAt = w.CreatedAt,
             LastEditedAt = w.LastEditedAt,
-            Duration = w.Duration
+            Duration = w.Duration,
+            Status = w.Status
         });
 }

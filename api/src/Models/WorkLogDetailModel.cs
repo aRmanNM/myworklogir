@@ -1,3 +1,5 @@
+using api.Persistence.Entities;
+
 namespace api.Models;
 
 public class WorkLogDetailModel
@@ -10,4 +12,5 @@ public class WorkLogDetailModel
     public DateTime CreatedAt { get; set; }
     public DateTime? LastEditedAt { get; set; }
     public TimeSpan Duration { get; set; }
+    public WorkLogStatus Status { get; set; }
 }
