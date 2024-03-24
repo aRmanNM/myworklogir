@@ -36,7 +36,8 @@ public class InitializerService : BackgroundService
         var scopeDescriptors = new List<OpenIddictScopeDescriptor>()
         {
             new OpenIddictScopeDescriptor { Name = Constants.Scopes.Todo, Resources = { "todo-api" } },
-            new OpenIddictScopeDescriptor { Name = Constants.Scopes.WorkLog, Resources = { "worklog-api" } }
+            new OpenIddictScopeDescriptor { Name = Constants.Scopes.WorkLog, Resources = { "worklog-api" } },
+            new OpenIddictScopeDescriptor { Name = Constants.Scopes.Workplace, Resources = { "workplace-api" } }
         };
 
         foreach (var scopeDescriptor in scopeDescriptors)
@@ -73,6 +74,7 @@ public class InitializerService : BackgroundService
                 // app-specific scopes
                 OpenIddictConstants.Permissions.Prefixes.Scope + Constants.Scopes.Todo,
                 OpenIddictConstants.Permissions.Prefixes.Scope + Constants.Scopes.WorkLog,
+                OpenIddictConstants.Permissions.Prefixes.Scope + Constants.Scopes.Workplace,
             }
         };
 

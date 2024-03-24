@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using api.Models;
 using api.Persistence.Entities;
 
@@ -30,5 +29,12 @@ public static class Projections
             LastEditedAt = w.LastEditedAt,
             Duration = w.Duration,
             Status = w.Status
+        });
+
+    public static IQueryable<WorkplaceDetailModel> ProjectToWorkplaceDetailModel(this IQueryable<Workplace> workplace)
+        => workplace.Select(w => new WorkplaceDetailModel
+        {
+            Id = w.Id,
+            Name = w.Name
         });
 }

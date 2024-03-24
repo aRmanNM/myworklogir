@@ -77,8 +77,9 @@ public static class AppConfiguration
         services.AddAuthorization(options =>
         {
             // check here: https://github.com/openiddict/openiddict-core/issues/1328
-            options.AddPolicy(Policies.Todo, builder => ContainScope(builder, Scopes.Todo));
-            options.AddPolicy(Policies.WorkLog, builder => ContainScope(builder, Scopes.WorkLog));
+            options.AddPolicy(ScopePolicies.Todo, builder => ContainScope(builder, Scopes.Todo));
+            options.AddPolicy(ScopePolicies.WorkLog, builder => ContainScope(builder, Scopes.WorkLog));
+            options.AddPolicy(ScopePolicies.Workplace, builder => ContainScope(builder, Scopes.Workplace));
         });
 
         services.AddHostedService<InitializerService>();

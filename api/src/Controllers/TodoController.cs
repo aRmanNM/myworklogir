@@ -13,7 +13,7 @@ namespace api.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme,
-    Policy = Constants.Policies.Todo)]
+    Policy = Constants.ScopePolicies.Todo)]
 public class TodoController : ControllerBase
 {
     private readonly AppDbContext _context;

@@ -26,7 +26,7 @@ public class AuthController : ControllerBase
         _userManager = userManager;
     }
 
-    [HttpPost("~/connect/token")]
+    [HttpPost("~/Connect/Token")]
     public async Task<IActionResult> Exchange()
     {
         var request = HttpContext.GetOpenIddictServerRequest();
@@ -77,8 +77,10 @@ public class AuthController : ControllerBase
                 Scopes.Email,
                 Scopes.Profile,
                 Scopes.Roles,
+
                 Constants.Scopes.Todo,
-                Constants.Scopes.WorkLog
+                Constants.Scopes.WorkLog,
+                Constants.Scopes.Workplace
             }.Intersect(request.GetScopes()));
 
             identity.SetDestinations(GetDestinations);

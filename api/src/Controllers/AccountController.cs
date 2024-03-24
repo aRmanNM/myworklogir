@@ -20,7 +20,7 @@ public class AccountController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost("~/account/register")]
+    [HttpPost("~/Account/Register")]
     public async Task<IActionResult> Register([FromBody] RegisterModel request)
     {
         if (!ModelState.IsValid)

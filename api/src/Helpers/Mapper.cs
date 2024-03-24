@@ -30,4 +30,11 @@ public static class Mapper
             Duration = w.Duration,
             Status = w.Status
         };
+
+    public static WorkplaceDetailModel MapToWorkplaceDetailModel(this Workplace w)
+        => new WorkplaceDetailModel
+        {
+            Id = w.Id,
+            Name = w.Name
+        };
 }

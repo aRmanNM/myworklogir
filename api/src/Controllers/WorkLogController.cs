@@ -13,7 +13,7 @@ namespace api.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme,
-    Policy = Constants.Policies.WorkLog)]
+    Policy = Constants.ScopePolicies.WorkLog)]
 public class WorkLogController : ControllerBase
 {
     private readonly AppDbContext _context;

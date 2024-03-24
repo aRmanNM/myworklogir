@@ -6,11 +6,13 @@ public static class Constants
     {
         public const string Todo = "todo";
         public const string WorkLog = "worklog";
+        public const string Workplace = "workplace";
     }
 
-    public static class Policies
+    public static class ScopePolicies
     {
         public const string Todo = "todo";
         public const string WorkLog = "worklog";
+        public const string Workplace = "workplace";
     }
 }
