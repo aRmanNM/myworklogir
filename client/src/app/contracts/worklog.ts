@@ -18,6 +18,7 @@ export interface WorkLogCreateModel {
 }
 
 export interface WorkLogUpdateModel {
+  id: number;
   title: string;
   description: string | null;
 }

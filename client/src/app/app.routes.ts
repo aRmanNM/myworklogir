@@ -14,6 +14,6 @@ export const routes: Routes = [
   {
     path: "page/worklog",
     loadComponent: () =>
-      import("./pages/worklog/worklog.page").then((m) => m.WorkLogComponent),
+      import("./pages/worklog/worklog.page").then((m) => m.WorkLogPage),
   },
 ];

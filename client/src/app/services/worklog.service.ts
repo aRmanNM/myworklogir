@@ -6,6 +6,7 @@ import {
   WorkLogCreateModel,
   WorkLogDetailModel,
   WorkLogStartModel,
+  WorkLogUpdateModel,
 } from "../contracts/worklog";
 
 @Injectable({
@@ -23,6 +24,17 @@ export class WorkLogService {
     return this.httpClient.post<WorkLogDetailModel>(
       this.baseUrl + "/start",
       startModel
+    );
+  }
+
+  create(createModel: WorkLogCreateModel): Observable<WorkLogDetailModel> {
+    return this.httpClient.post<WorkLogDetailModel>(this.baseUrl, createModel);
+  }
+
+  update(updateModel: WorkLogUpdateModel): Observable<WorkLogDetailModel> {
+    return this.httpClient.put<WorkLogDetailModel>(
+      this.baseUrl + `/${updateModel.id}`,
+      updateModel
     );
   }
 

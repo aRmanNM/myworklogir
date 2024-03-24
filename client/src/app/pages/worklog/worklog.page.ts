@@ -8,10 +8,10 @@ import {
 } from "src/app/contracts/worklog";
 import { WorkLogService } from "src/app/services/worklog.service";
 import { IonModule } from "src/app/shared/ion.module";
-import { stopwatchOutline, timerOutline } from "ionicons/icons";
+import { stopwatchOutline } from "ionicons/icons";
 import { ModalController } from "@ionic/angular/standalone";
 import { TimerModalComponent } from "./timer.modal";
-import { Observable } from "rxjs";
+import { WorkLogModalComponent } from "./worklog.modal";
 
 @Component({
   selector: "app-worklog-page",
@@ -56,9 +56,9 @@ import { Observable } from "rxjs";
                   <ion-button (click)="delete(worklog.id)" color="danger"
                     >حذف</ion-button
                   >
-                  <!-- <ion-button (click)="openTimerModal(worklog)" strong="true"
+                  <ion-button (click)="openModal(worklog)" strong="true"
                     >ویرایش</ion-button
-                  > -->
+                  >
                 </ion-buttons>
               </ion-item>
             </ion-accordion>
@@ -77,7 +77,7 @@ import { Observable } from "rxjs";
   imports: [IonModule, CommonModule],
   providers: [WorkLogService],
 })
-export class WorkLogComponent implements OnInit {
+export class WorkLogPage implements OnInit {
   worklogDetails: WorkLogDetailModel[] = [];
 
   constructor(
@@ -119,6 +119,31 @@ export class WorkLogComponent implements OnInit {
     this.worklogService.delete(id).subscribe((res) => {
       this.getAll();
     });
+  }
+
+  async openModal(worklog?: WorkLogDetailModel) {
+    const modal = await this.modalCtrl.create({
+      component: WorkLogModalComponent,
+      componentProps: {
+        id: worklog?.id,
+        title: worklog?.title,
+        description: worklog?.description,
+      },
+    });
+
+    modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role == "create") {
+      this.worklogService.create(data).subscribe((res) => {
+        this.getAll();
+      });
+    } else if (role == "update") {
+      this.worklogService.update(data).subscribe((res) => {
+        this.getAll();
+      });
+    }
   }
 
   async showTimerModal(worklog: WorkLogDetailModel) {
