@@ -53,7 +53,8 @@ public class TodoController : ControllerBase
         {
             UserId = userId,
             Title = model.Title,
-            Description = model.Description
+            Description = model.Description,
+            WorkplaceId = model.WorkplaceId
         };
 
         await _context.Todo.AddAsync(todo);
@@ -70,6 +71,7 @@ public class TodoController : ControllerBase
         var userId = _currentUserService.UserId;
 
         var todo = await _context.Todo
+            .Include(t => t.Workplace)
             .Where(t => t.UserId == userId && t.Id == id)
             .FirstOrDefaultAsync();
 
@@ -78,6 +80,7 @@ public class TodoController : ControllerBase
 
         todo.Title = model.Title;
         todo.Description = model.Description;
+        todo.WorkplaceId = model.WorkplaceId;
 
         await _context.SaveChangesAsync();
 
@@ -92,6 +95,7 @@ public class TodoController : ControllerBase
         var userId = _currentUserService.UserId;
 
         var todo = await _context.Todo
+            .Include(t => t.Workplace)
             .Where(t => t.UserId == userId && t.Id == id)
             .FirstOrDefaultAsync();
 

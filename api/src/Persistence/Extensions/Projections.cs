@@ -14,7 +14,8 @@ public static class Projections
             IsCompleted = t.IsCompleted,
             CompletedAt = t.CompletedAt,
             CreatedAt = t.CreatedAt,
-            LastEditedAt = t.LastEditedAt
+            LastEditedAt = t.LastEditedAt,
+            WorkplaceName = t.Workplace!.Name // it will convert to query so it's safe
         });
 
     public static IQueryable<WorkLogDetailModel> ProjectToWorkLogDetailModel(this IQueryable<WorkLog> worklog)
@@ -28,7 +29,8 @@ public static class Projections
             CreatedAt = w.CreatedAt,
             LastEditedAt = w.LastEditedAt,
             Duration = w.Duration,
-            Status = w.Status
+            Status = w.Status,
+            WorkplaceName = w.Workplace!.Name  // it will convert to query so it's safe
         });
 
     public static IQueryable<WorkplaceDetailModel> ProjectToWorkplaceDetailModel(this IQueryable<Workplace> workplace)

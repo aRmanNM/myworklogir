@@ -14,7 +14,10 @@ public static class Mapper
             IsCompleted = t.IsCompleted,
             CompletedAt = t.CompletedAt,
             CreatedAt = t.CreatedAt,
-            LastEditedAt = t.LastEditedAt
+            LastEditedAt = t.LastEditedAt,
+            WorkplaceName = t.Workplace == null
+                ? string.Empty
+                : t.Workplace.Name
         };
 
     public static WorkLogDetailModel MapToWorkLogDetailModel(this WorkLog w)
@@ -28,7 +31,10 @@ public static class Mapper
             CreatedAt = w.CreatedAt,
             LastEditedAt = w.LastEditedAt,
             Duration = w.Duration,
-            Status = w.Status
+            Status = w.Status,
+            WorkplaceName = w.Workplace == null
+                ? string.Empty
+                : w.Workplace.Name
         };
 
     public static WorkplaceDetailModel MapToWorkplaceDetailModel(this Workplace w)

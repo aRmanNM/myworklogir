@@ -13,4 +13,6 @@ public class WorkLogDetailModel
     public DateTime? LastEditedAt { get; set; }
     public TimeSpan Duration { get; set; }
     public WorkLogStatus Status { get; set; }
+
+    public string? WorkplaceName { get; set; }
 }

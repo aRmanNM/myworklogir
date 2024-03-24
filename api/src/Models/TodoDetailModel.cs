@@ -9,4 +9,6 @@ public class TodoDetailModel
     public DateTime? CompletedAt { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? LastEditedAt { get; set; }
+
+    public string? WorkplaceName { get; set; }
 }

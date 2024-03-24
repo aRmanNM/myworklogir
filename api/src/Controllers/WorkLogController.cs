@@ -53,7 +53,8 @@ public class WorkLogController : ControllerBase
             Description = model.Description,
             StartedAt = model.StartedAt,
             FinishedAt = model.FinishedAt,
-            Status = WorkLogStatus.Finished
+            Status = WorkLogStatus.Finished,
+            WorkplaceId = model.WorkplaceId
         };
 
         await _context.WorkLog.AddAsync(workLog);
@@ -70,6 +71,7 @@ public class WorkLogController : ControllerBase
         var userId = _currentUserService.UserId;
 
         var workLog = await _context.WorkLog
+            .Include(t => t.Workplace)
             .Where(t => t.UserId == userId && t.Id == id)
             .FirstOrDefaultAsync();
 
@@ -78,6 +80,7 @@ public class WorkLogController : ControllerBase
 
         workLog.Title = model.Title;
         workLog.Description = model.Description;
+        workLog.WorkplaceId = model.WorkplaceId;
 
         await _context.SaveChangesAsync();
 
@@ -86,12 +89,13 @@ public class WorkLogController : ControllerBase
         return Ok(workLogItem);
     }
 
-    [HttpPut("{id}/finish")]
+    [HttpPut("{id}/Finish")]
     public async Task<IActionResult> Finish(int id)
     {
         var userId = _currentUserService.UserId;
 
         var workLog = await _context.WorkLog
+            .Include(t => t.Workplace)
             .Where(t => t.UserId == userId && t.Id == id)
             .FirstOrDefaultAsync();
 
@@ -108,7 +112,7 @@ public class WorkLogController : ControllerBase
         return Ok(workLogItem);
     }
 
-    [HttpPost("start")]
+    [HttpPost("Start")]
     public async Task<IActionResult> Start(WorkLogStartModel model)
     {
         var userId = _currentUserService.UserId;

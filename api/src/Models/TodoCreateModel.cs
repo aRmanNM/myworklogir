@@ -8,4 +8,6 @@ public class TodoCreateModel
     public string Title { get; set; } = null!;
     public string? Description { get; set; }
 
+    public int? WorkplaceId { get; set; }
+
 }
