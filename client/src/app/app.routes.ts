@@ -16,4 +16,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import("./pages/worklog/worklog.page").then((m) => m.WorkLogPage),
   },
+  {
+    path: "page/routine",
+    loadComponent: () =>
+      import("./pages/routine/routine.page").then((m) => m.RoutinePagePage),
+  },
 ];

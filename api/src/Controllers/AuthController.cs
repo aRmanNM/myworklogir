@@ -78,6 +78,7 @@ public class AuthController : ControllerBase
                 Scopes.Profile,
                 Scopes.Roles,
 
+                // app specific scopes
                 Constants.Scopes.Todo,
                 Constants.Scopes.WorkLog,
                 Constants.Scopes.Workplace
