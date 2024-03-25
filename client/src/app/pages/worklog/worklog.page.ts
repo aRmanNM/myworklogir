@@ -33,38 +33,34 @@ import { WorkLogModalComponent } from "./worklog.modal";
         </ion-toolbar>
       </ion-header>
 
-      <div id="container">
-        <ion-list>
-          <ion-accordion-group>
-            <ion-accordion
-              value="{{ worklog.id }}"
-              *ngFor="let worklog of worklogDetails"
-            >
-              <ion-item slot="header">
-                <ion-label dir="auto">{{ worklog.title }}</ion-label>
-              </ion-item>
-              <ion-item slot="content">
-                <ion-label color="dark" dir="auto">{{
-                  worklog.description || "بدون توضیح"
-                }}</ion-label>
-                <ion-label color="dark" dir="auto">{{
-                  worklog.duration
-                }}</ion-label>
-              </ion-item>
-              <ion-item slot="content">
-                <ion-buttons slot="end">
-                  <ion-button (click)="delete(worklog.id)" color="danger"
-                    >حذف</ion-button
-                  >
-                  <ion-button (click)="openModal(worklog)" strong="true"
-                    >ویرایش</ion-button
-                  >
-                </ion-buttons>
-              </ion-item>
-            </ion-accordion>
-          </ion-accordion-group>
-        </ion-list>
-      </div>
+      <ion-accordion-group>
+        <ion-accordion
+          value="{{ worklog.id }}"
+          *ngFor="let worklog of worklogDetails"
+        >
+          <ion-item slot="header">
+            <ion-label dir="auto">{{ worklog.title }}</ion-label>
+          </ion-item>
+          <ion-item slot="content">
+            <ion-label color="dark" dir="auto">{{
+              worklog.description || "بدون توضیح"
+            }}</ion-label>
+            <ion-label color="dark" dir="auto">{{
+              worklog.duration
+            }}</ion-label>
+          </ion-item>
+          <ion-item slot="content">
+            <ion-buttons slot="end">
+              <ion-button (click)="delete(worklog.id)" color="danger"
+                >حذف</ion-button
+              >
+              <ion-button (click)="openModal(worklog)" strong="true"
+                >ویرایش</ion-button
+              >
+            </ion-buttons>
+          </ion-item>
+        </ion-accordion>
+      </ion-accordion-group>
 
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
         <ion-fab-button (click)="start()">

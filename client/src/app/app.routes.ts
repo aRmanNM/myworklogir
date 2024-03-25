@@ -19,6 +19,11 @@ export const routes: Routes = [
   {
     path: "page/routine",
     loadComponent: () =>
-      import("./pages/routine/routine.page").then((m) => m.RoutinePagePage),
+      import("./pages/routine/routine.page").then((m) => m.RoutinePage),
+  },
+  {
+    path: "page/workplace",
+    loadComponent: () =>
+      import("./pages/workplace/workplace.page").then((m) => m.WorkplacePage),
   },
 ];

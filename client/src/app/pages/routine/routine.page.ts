@@ -22,9 +22,7 @@ import { IonModule } from "src/app/shared/ion.module";
         </ion-toolbar>
       </ion-header>
 
-      <div id="container">
-        <strong class="capitalize">این بخش هنوز پیاده سازی نشده است</strong>
-      </div>
+      <div id="container">این بخش هنوز پیاده سازی نشده است</div>
     </ion-content>
   `,
   styles: [
@@ -41,27 +39,11 @@ import { IonModule } from "src/app/shared/ion.module";
         top: 50%;
         transform: translateY(-50%);
       }
-
-      #container strong {
-        font-size: 20px;
-        line-height: 26px;
-      }
-
-      #container p {
-        font-size: 16px;
-        line-height: 22px;
-        color: #8c8c8c;
-        margin: 0;
-      }
-
-      #container a {
-        text-decoration: none;
-      }
     `,
   ],
   imports: [IonModule, CommonModule],
 })
-export class RoutinePagePage implements OnInit {
+export class RoutinePage implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}

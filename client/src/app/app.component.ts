@@ -25,6 +25,8 @@ import {
   settingsSharp,
   repeatOutline,
   repeatSharp,
+  briefcaseOutline,
+  briefcaseSharp,
 } from "ionicons/icons";
 
 @Component({
@@ -52,10 +54,10 @@ import {
 })
 export class AppComponent {
   public appPages = [
-    { title: "تسکها", url: "/page/todo", icon: "list" },
+    { title: "تسک", url: "/page/todo", icon: "list" },
     { title: "ورکلاگ", url: "/page/worklog", icon: "timer" },
     { title: "روتین", url: "/page/routine", icon: "repeat" },
-    { title: "تنظیمات", url: "/page/settings", icon: "settings" },
+    { title: "پروژه", url: "/page/workplace", icon: "briefcase" },
   ];
   constructor() {
     addIcons({
@@ -67,6 +69,8 @@ export class AppComponent {
       settingsSharp,
       repeatOutline,
       repeatSharp,
+      briefcaseOutline,
+      briefcaseSharp,
     });
   }
 }

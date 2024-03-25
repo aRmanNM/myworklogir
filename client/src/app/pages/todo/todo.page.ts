@@ -10,8 +10,8 @@ import { TodoModalComponent } from "./todo.modal";
 import { ModalController } from "@ionic/angular/standalone";
 
 @Component({
-    selector: "app-todo-page",
-    template: `
+  selector: "app-todo-page",
+  template: `
     <ion-header [translucent]="true">
       <ion-toolbar>
         <ion-buttons slot="start">
@@ -28,39 +28,32 @@ import { ModalController } from "@ionic/angular/standalone";
         </ion-toolbar>
       </ion-header>
 
-      <div id="container">
-        <ion-list>
-          <ion-accordion-group>
-            <ion-accordion
-              value="{{ todo.id }}"
-              *ngFor="let todo of todoDetails"
-            >
-              <ion-item slot="header">
-                <ion-checkbox
+      <ion-accordion-group>
+        <ion-accordion value="{{ todo.id }}" *ngFor="let todo of todoDetails">
+          <ion-item slot="header">
+            <!-- <ion-checkbox
                   (ionChange)="toggle(todo.id)"
                   checked="{{ todo.isCompleted }}"
-                ></ion-checkbox>
-                <ion-label dir="auto">{{ todo.title }}</ion-label>
-              </ion-item>
-              <ion-item slot="content">
-                <ion-label color="dark" dir="auto">{{
-                  todo.description || "بدون توضیح"
-                }}</ion-label>
-              </ion-item>
-              <ion-item slot="content">
-                <ion-buttons slot="end">
-                  <ion-button (click)="delete(todo.id)" color="danger"
-                    >حذف</ion-button
-                  >
-                  <ion-button (click)="openModal(todo)" strong="true"
-                    >ویرایش</ion-button
-                  >
-                </ion-buttons>
-              </ion-item>
-            </ion-accordion>
-          </ion-accordion-group>
-        </ion-list>
-      </div>
+                ></ion-checkbox> -->
+            <ion-label dir="auto">{{ todo.title }}</ion-label>
+          </ion-item>
+          <ion-item slot="content">
+            <ion-label color="dark" dir="auto">{{
+              todo.description || "بدون توضیح"
+            }}</ion-label>
+          </ion-item>
+          <ion-item slot="content">
+            <ion-buttons slot="end">
+              <ion-button (click)="delete(todo.id)" color="danger"
+                >حذف</ion-button
+              >
+              <ion-button (click)="openModal(todo)" strong="true"
+                >ویرایش</ion-button
+              >
+            </ion-buttons>
+          </ion-item>
+        </ion-accordion>
+      </ion-accordion-group>
 
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
         <ion-fab-button (click)="openModal()">
@@ -69,19 +62,19 @@ import { ModalController } from "@ionic/angular/standalone";
       </ion-fab>
     </ion-content>
   `,
-    styles: [
-        `
+  styles: [
+    `
       #container {
       }
 
-      #container ion-label {
-        margin-right: 16px;
-      }
+      // #container ion-label {
+      //   margin-right: 16px;
+      // }
     `,
-    ],
-    standalone: true,
-    providers: [TodoService],
-    imports: [IonModule, CommonModule, TodoModalComponent]
+  ],
+  standalone: true,
+  providers: [TodoService],
+  imports: [IonModule, CommonModule, TodoModalComponent],
 })
 export class TodoPage implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
