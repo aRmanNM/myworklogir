@@ -2,6 +2,8 @@ export interface WorkLogDetailModel {
   id: number;
   title: string | null;
   description: string | null;
+  workplaceId: number | null;
+  workplaceName: string | null;
   startedAt: string;
   finishedAt: string | null;
   createdAt: string;
@@ -15,12 +17,14 @@ export interface WorkLogCreateModel {
   description: string | null;
   startedAt: string;
   finishedAt: string;
+  workplaceId: number | null;
 }
 
 export interface WorkLogUpdateModel {
   id: number;
   title: string;
   description: string | null;
+  workplaceId: number | null;
 }
 
 export interface WorkLogStartModel {

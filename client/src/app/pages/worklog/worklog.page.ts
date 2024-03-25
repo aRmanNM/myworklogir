@@ -124,6 +124,7 @@ export class WorkLogPage implements OnInit {
         id: worklog?.id,
         title: worklog?.title,
         description: worklog?.description,
+        workplaceId: worklog?.workplaceId
       },
     });
 

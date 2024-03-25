@@ -4,6 +4,8 @@ import { FormsModule } from "@angular/forms";
 import { ModalController } from "@ionic/angular/standalone";
 import { IonModule } from "src/app/shared/ion.module";
 import { TodoCreateModel, TodoUpdateModel } from "src/app/contracts/todo";
+import { WorkplaceDetailModel } from "src/app/contracts/workplace";
+import { WorkplaceService } from "src/app/services/workplace.service";
 
 @Component({
   selector: "app-todo-modal",
@@ -24,24 +26,33 @@ import { TodoCreateModel, TodoUpdateModel } from "src/app/contracts/todo";
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <ion-item>
-        <ion-input
-          label="عنوان:"
-          labelPlacement="stacked"
-          type="text"
-          placeholder="توسعه فیچر جدید"
-          [(ngModel)]="title"
-        ></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-textarea
-          label="توضیحات:"
-          labelPlacement="stacked"
-          type="text"
-          rows="5"
-          [(ngModel)]="description"
-        ></ion-textarea>
-      </ion-item>
+      <ion-input
+        label="عنوان:"
+        labelPlacement="stacked"
+        type="text"
+        placeholder="توسعه فیچر جدید"
+        [(ngModel)]="title"
+      ></ion-input>
+      <ion-textarea
+        label="توضیحات:"
+        labelPlacement="stacked"
+        type="text"
+        rows="5"
+        [(ngModel)]="description"
+      ></ion-textarea>
+      <ion-select
+        [(ngModel)]="workplaceId"
+        interface="action-sheet"
+        placeholder="انتخاب پروژه"
+        cancelText="انصراف"
+      >
+        <ion-select-option [value]="null">-</ion-select-option>
+        <ion-select-option
+          *ngFor="let workplace of workplaces"
+          [value]="workplace.id"
+          >{{ workplace.name }}</ion-select-option
+        >
+      </ion-select>
     </ion-content>
   `,
   styles: [``],
@@ -50,15 +61,30 @@ export class TodoModalComponent implements OnInit {
   id?: number;
   title: string = "";
   description: string = "";
+  workplaceId?: number;
 
-  constructor(private modalCtrl: ModalController) {}
+  workplaces: WorkplaceDetailModel[] = [];
 
-  ngOnInit(): void {}
+  constructor(
+    private modalCtrl: ModalController,
+    private workplaceService: WorkplaceService
+  ) {}
+
+  ngOnInit(): void {
+    this.getWorkplaces();
+  }
+
+  getWorkplaces() {
+    this.workplaceService.getAll().subscribe((res) => {
+      this.workplaces = res;
+    });
+  }
 
   create() {
     const data: TodoCreateModel = {
       title: this.title,
       description: this.description,
+      workplaceId: this.workplaceId ?? null,
     };
 
     return this.modalCtrl.dismiss(data, "create");
@@ -69,6 +95,7 @@ export class TodoModalComponent implements OnInit {
       id: this.id!,
       title: this.title,
       description: this.description,
+      workplaceId: this.workplaceId ?? null,
     };
 
     return this.modalCtrl.dismiss(data, "update");

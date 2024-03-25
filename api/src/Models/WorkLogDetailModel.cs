@@ -14,5 +14,6 @@ public class WorkLogDetailModel
     public TimeSpan Duration { get; set; }
     public WorkLogStatus Status { get; set; }
 
+    public int? WorkplaceId { get; set; }
     public string? WorkplaceName { get; set; }
 }

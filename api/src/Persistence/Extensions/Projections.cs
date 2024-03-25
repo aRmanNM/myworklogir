@@ -15,6 +15,7 @@ public static class Projections
             CompletedAt = t.CompletedAt,
             CreatedAt = t.CreatedAt,
             LastEditedAt = t.LastEditedAt,
+            WorkplaceId = t.Workplace!.Id,
             WorkplaceName = t.Workplace!.Name // it will convert to query so it's safe
         });
 
@@ -30,6 +31,7 @@ public static class Projections
             LastEditedAt = w.LastEditedAt,
             Duration = w.Duration,
             Status = w.Status,
+            WorkplaceId = w.Workplace!.Id,
             WorkplaceName = w.Workplace!.Name  // it will convert to query so it's safe
         });
 

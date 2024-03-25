@@ -20,6 +20,8 @@ import {
   IonAccordionGroup,
   IonAccordion,
   IonNote,
+  IonSelect,
+  IonSelectOption,
 } from "@ionic/angular/standalone";
 
 @NgModule({
@@ -44,7 +46,9 @@ import {
     IonTextarea,
     IonAccordionGroup,
     IonAccordion,
-    IonNote
+    IonNote,
+    IonSelect,
+    IonSelectOption,
   ],
   exports: [
     IonHeader,
@@ -66,7 +70,9 @@ import {
     IonTextarea,
     IonAccordionGroup,
     IonAccordion,
-    IonNote
+    IonNote,
+    IonSelect,
+    IonSelectOption,
   ],
   providers: [],
 })

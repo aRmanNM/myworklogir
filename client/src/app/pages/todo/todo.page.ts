@@ -105,6 +105,7 @@ export class TodoPage implements OnInit {
         id: todo?.id,
         title: todo?.title,
         description: todo?.description,
+        workplaceId: todo?.workplaceId
       },
     });
 
