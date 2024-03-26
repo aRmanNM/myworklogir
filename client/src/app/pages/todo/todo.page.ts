@@ -38,9 +38,10 @@ import { ModalController } from "@ionic/angular/standalone";
             <ion-label dir="auto">{{ todo.title }}</ion-label>
           </ion-item>
           <ion-item slot="content">
-            <ion-label color="dark" dir="auto">{{
-              todo.description || "بدون توضیح"
-            }}</ion-label>
+            <ion-label color="dark" dir="auto">
+              <h3>{{ todo.description || "بدون توضیح" }}</h3>
+              <p>{{ todo.workplaceName }}</p>
+            </ion-label>
           </ion-item>
           <ion-item slot="content">
             <ion-buttons slot="end">

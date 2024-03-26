@@ -39,14 +39,14 @@ import { WorkLogModalComponent } from "./worklog.modal";
           *ngFor="let worklog of worklogDetails"
         >
           <ion-item slot="header">
-            <ion-label dir="auto">{{ worklog.title }}</ion-label>
+            <ion-label dir="auto">
+              <h3>{{ worklog.title }}</h3>
+              <p>{{ worklog.duration }}</p>
+            </ion-label>
           </ion-item>
           <ion-item slot="content">
             <ion-label color="dark" dir="auto">{{
               worklog.description || "بدون توضیح"
-            }}</ion-label>
-            <ion-label color="dark" dir="auto">{{
-              worklog.duration
             }}</ion-label>
           </ion-item>
           <ion-item slot="content">

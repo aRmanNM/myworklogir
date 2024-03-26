@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { RouterLink, RouterLinkActive } from "@angular/router";
+import { Router, RouterLink, RouterLinkActive } from "@angular/router";
 import {
   IonApp,
   IonSplitPane,
@@ -27,6 +27,8 @@ import {
   repeatSharp,
   briefcaseOutline,
   briefcaseSharp,
+  exitOutline,
+  exitSharp,
 } from "ionicons/icons";
 
 @Component({
@@ -59,7 +61,7 @@ export class AppComponent {
     { title: "روتین", url: "/page/routine", icon: "repeat" },
     { title: "پروژه", url: "/page/workplace", icon: "briefcase" },
   ];
-  constructor() {
+  constructor(private router: Router) {
     addIcons({
       listOutline,
       listSharp,
@@ -71,6 +73,13 @@ export class AppComponent {
       repeatSharp,
       briefcaseOutline,
       briefcaseSharp,
+      exitOutline,
+      exitSharp,
     });
+  }
+
+  logout() {
+    localStorage.removeItem("t");
+    this.router.navigate(["/page/auth/login"]);
   }
 }
