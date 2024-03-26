@@ -83,9 +83,11 @@ export class WorkLogPage implements OnInit {
     addIcons({ stopwatchOutline });
   }
 
-  ngOnInit(): void {
+  ionViewDidEnter() {
     this.getAll();
   }
+
+  ngOnInit(): void {}
 
   getAll() {
     this.worklogService.getAll().subscribe((res) => {
@@ -124,7 +126,7 @@ export class WorkLogPage implements OnInit {
         id: worklog?.id,
         title: worklog?.title,
         description: worklog?.description,
-        workplaceId: worklog?.workplaceId
+        workplaceId: worklog?.workplaceId,
       },
     });
 

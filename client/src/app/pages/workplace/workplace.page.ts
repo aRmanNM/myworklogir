@@ -69,9 +69,11 @@ export class WorkplacePage implements OnInit {
     addIcons({ addOutline });
   }
 
-  ngOnInit(): void {
+  ionViewDidEnter() {
     this.getAll();
   }
+
+  ngOnInit(): void {}
 
   getAll() {
     this.workplaceService.getAll().subscribe((res) => {

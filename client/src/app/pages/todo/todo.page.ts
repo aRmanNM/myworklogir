@@ -88,9 +88,11 @@ export class TodoPage implements OnInit {
     addIcons({ addOutline });
   }
 
-  ngOnInit() {
+  ionViewDidEnter() {
     this.getAll();
   }
+
+  ngOnInit() {}
 
   getAll() {
     this.todoService.getAll().subscribe((res) => {
@@ -105,7 +107,7 @@ export class TodoPage implements OnInit {
         id: todo?.id,
         title: todo?.title,
         description: todo?.description,
-        workplaceId: todo?.workplaceId
+        workplaceId: todo?.workplaceId,
       },
     });
 
