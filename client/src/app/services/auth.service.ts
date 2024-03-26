@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  baseUrl = environment.apiBaseUrl + "/connect";
+  baseUrl = environment.apiBaseUrl;
   clientId = environment.clientId;
   clientSecret = environment.clientSecret;
 
@@ -20,7 +21,7 @@ export class AuthService {
     body.set("scope", "todo worklog workplace");
 
     this.httpClient
-      .post(this.baseUrl + "/token", body, {
+      .post(this.baseUrl + "/connect/token", body, {
         headers: new HttpHeaders()
           .set(
             "Authorization",
@@ -32,5 +33,12 @@ export class AuthService {
         // console.log(res.access_token);
         localStorage.setItem("t", res.access_token);
       });
+  }
+
+  register(registerModel: any): Observable<any> {
+    return this.httpClient.post(
+      this.baseUrl + "/account/register",
+      registerModel
+    );
   }
 }

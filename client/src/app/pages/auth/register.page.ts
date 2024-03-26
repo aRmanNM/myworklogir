@@ -6,12 +6,12 @@ import { AuthService } from "src/app/services/auth.service";
 import { IonModule } from "src/app/shared/ion.module";
 
 @Component({
-  selector: "app-login-page",
+  selector: "app-register-page",
   standalone: true,
   template: `
     <ion-content class="ion-padding">
       <div id="container">
-        <form [formGroup]="loginForm">
+        <form [formGroup]="registerForm">
           <ion-input
             label="ایمیل"
             labelPlacement="stacked"
@@ -26,9 +26,9 @@ import { IonModule } from "src/app/shared/ion.module";
             value="password"
             formControlName="password"
           ></ion-input>
-          <ion-button type="submit" (click)="login()">ورود</ion-button>
-          <ion-button fill="clear" [routerLink]="['/page/auth/register']"
-            >ثبت نام</ion-button
+          <ion-button type="submit" (click)="register()">ثبت نام</ion-button>
+          <ion-button fill="clear" [routerLink]="['/page/auth/login']"
+            >ورود</ion-button
           >
         </form>
       </div>
@@ -48,8 +48,8 @@ import { IonModule } from "src/app/shared/ion.module";
   ],
   imports: [IonModule, CommonModule, ReactiveFormsModule, RouterModule],
 })
-export class LoginPage implements OnInit {
-  loginForm = new FormGroup({
+export class RegisterPage implements OnInit {
+  registerForm = new FormGroup({
     email: new FormControl(""),
     password: new FormControl(""),
   });
@@ -58,8 +58,9 @@ export class LoginPage implements OnInit {
 
   ngOnInit(): void {}
 
-  login() {
-    this.authService.login(this.loginForm.value);
-    this.router.navigate(["/page/todo"]);
+  register() {
+    this.authService.register(this.registerForm.value).subscribe((res) => {
+      this.router.navigate(["/page/auth/login"]);
+    });
   }
 }

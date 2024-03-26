@@ -35,6 +35,10 @@ export const routes: Routes = [
     path: "page/auth/login",
     loadComponent: () =>
       import("./pages/auth/login.page").then((m) => m.LoginPage),
-    canActivate: [authGuard],
+  },
+  {
+    path: "page/auth/register",
+    loadComponent: () =>
+      import("./pages/auth/register.page").then((m) => m.RegisterPage),
   },
 ];
