@@ -2,12 +2,19 @@ import { CommonModule } from "@angular/common";
 import { Component, inject, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { addIcons } from "ionicons";
-import { addOutline } from "ionicons/icons";
+import {
+  addOutline,
+  downloadOutline,
+  ellipsisHorizontal,
+  ellipsisVertical,
+  trashOutline,
+} from "ionicons/icons";
 import { IonModule } from "src/app/shared/ion.module";
 import { TodoDetailModel } from "src/app/contracts/todo";
 import { TodoService } from "src/app/services/todo.service";
 import { TodoModalComponent } from "./todo.modal";
 import { ModalController } from "@ionic/angular/standalone";
+import { LoadingService } from "src/app/services/loading.service";
 
 @Component({
   selector: "app-todo-page",
@@ -18,23 +25,25 @@ import { ModalController } from "@ionic/angular/standalone";
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <ion-title>تسکها</ion-title>
+        <ion-buttons slot="primary">
+          <ion-button id="click-trigger">
+            <ion-icon
+              slot="icon-only"
+              ios="ellipsis-horizontal"
+              md="ellipsis-vertical"
+            ></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <ion-progress-bar
+          type="indeterminate"
+          *ngIf="loadingService.visibility | async"
+        ></ion-progress-bar>
       </ion-toolbar>
     </ion-header>
-
     <ion-content [fullscreen]="true" color="light">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">تسکها</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
       <ion-accordion-group>
         <ion-accordion value="{{ todo.id }}" *ngFor="let todo of todoDetails">
           <ion-item slot="header">
-            <!-- <ion-checkbox
-                  (ionChange)="toggle(todo.id)"
-                  checked="{{ todo.isCompleted }}"
-                ></ion-checkbox> -->
             <ion-label dir="auto">{{ todo.title }}</ion-label>
           </ion-item>
           <ion-item slot="content">
@@ -62,17 +71,25 @@ import { ModalController } from "@ionic/angular/standalone";
         </ion-fab-button>
       </ion-fab>
     </ion-content>
-  `,
-  styles: [
-    `
-      #container {
-      }
 
-      // #container ion-label {
-      //   margin-right: 16px;
-      // }
-    `,
-  ],
+    <ion-popover trigger="click-trigger" triggerAction="click">
+      <ng-template>
+        <ion-content>
+          <ion-list>
+            <ion-item lines="none">
+              <ion-icon name="download-outline"></ion-icon>
+              <ion-label class="ion-padding-start">خروجی اکسل</ion-label>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-icon name="trash-outline"></ion-icon>
+              <ion-label class="ion-padding-start">حذف همه</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+  `,
+  styles: [``],
   standalone: true,
   providers: [TodoService],
   imports: [IonModule, CommonModule, TodoModalComponent],
@@ -84,9 +101,16 @@ export class TodoPage implements OnInit {
 
   constructor(
     private todoService: TodoService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    public loadingService: LoadingService
   ) {
-    addIcons({ addOutline });
+    addIcons({
+      addOutline,
+      ellipsisVertical,
+      ellipsisHorizontal,
+      downloadOutline,
+      trashOutline,
+    });
   }
 
   ionViewDidEnter() {

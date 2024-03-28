@@ -12,6 +12,7 @@ import { stopwatchOutline } from "ionicons/icons";
 import { ModalController } from "@ionic/angular/standalone";
 import { TimerModalComponent } from "./timer.modal";
 import { WorkLogModalComponent } from "./worklog.modal";
+import { LoadingService } from "src/app/services/loading.service";
 
 @Component({
   selector: "app-worklog-page",
@@ -24,15 +25,13 @@ import { WorkLogModalComponent } from "./worklog.modal";
         </ion-buttons>
         <ion-title>ورکلاگ</ion-title>
       </ion-toolbar>
+      <ion-progress-bar
+        type="indeterminate"
+        *ngIf="loadingService.visibility | async"
+      ></ion-progress-bar>
     </ion-header>
 
     <ion-content [fullscreen]="true" color="light">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">ورکلاگ</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
       <ion-accordion-group>
         <ion-accordion
           value="{{ worklog.id }}"
@@ -78,7 +77,8 @@ export class WorkLogPage implements OnInit {
 
   constructor(
     private worklogService: WorkLogService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    public loadingService: LoadingService
   ) {
     addIcons({ stopwatchOutline });
   }

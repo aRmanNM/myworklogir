@@ -23,7 +23,7 @@ export const TokenInterceptor: HttpInterceptorFn = (req, next) => {
     tap({
       error: (res) => {
         if (res.status == 401) {
-          router.navigate(["page/auth/login"]);
+          router.navigate(["auth/login"]);
         }
       },
     })

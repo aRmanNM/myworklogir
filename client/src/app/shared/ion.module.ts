@@ -22,6 +22,8 @@ import {
   IonNote,
   IonSelect,
   IonSelectOption,
+  IonPopover,
+  IonProgressBar,
 } from "@ionic/angular/standalone";
 
 @NgModule({
@@ -49,6 +51,8 @@ import {
     IonNote,
     IonSelect,
     IonSelectOption,
+    IonPopover,
+    IonProgressBar,
   ],
   exports: [
     IonHeader,
@@ -73,6 +77,8 @@ import {
     IonNote,
     IonSelect,
     IonSelectOption,
+    IonPopover,
+    IonProgressBar,
   ],
   providers: [],
 })

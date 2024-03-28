@@ -9,7 +9,7 @@ import { IonModule } from "src/app/shared/ion.module";
   selector: "app-login-page",
   standalone: true,
   template: `
-    <ion-content class="ion-padding">
+    <ion-content>
       <div id="container">
         <form [formGroup]="loginForm">
           <ion-input
@@ -36,6 +36,11 @@ import { IonModule } from "src/app/shared/ion.module";
   `,
   styles: [
     `
+      ion-content {
+        width: 100%;
+        heigh: 100%;
+      }
+
       #container {
         text-align: center;
         position: absolute;
@@ -60,6 +65,6 @@ export class LoginPage implements OnInit {
 
   login() {
     this.authService.login(this.loginForm.value);
-    this.router.navigate(["/page/todo"]);
+    this.router.navigate(["/dashboard/todo"]); // TODO: replace this with returnUrl
   }
 }

@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
+import { LoadingService } from "src/app/services/loading.service";
 import { IonModule } from "src/app/shared/ion.module";
 
 @Component({
@@ -12,16 +13,14 @@ import { IonModule } from "src/app/shared/ion.module";
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <ion-title>روتین</ion-title>
+        <ion-progress-bar
+          type="indeterminate"
+          *ngIf="loadingService.visibility | async"
+        ></ion-progress-bar>
       </ion-toolbar>
     </ion-header>
 
     <ion-content [fullscreen]="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title>روتین</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
       <div id="container">این بخش هنوز پیاده سازی نشده است</div>
     </ion-content>
   `,
@@ -44,7 +43,7 @@ import { IonModule } from "src/app/shared/ion.module";
   imports: [IonModule, CommonModule],
 })
 export class RoutinePage implements OnInit {
-  constructor() {}
+  constructor(public loadingService: LoadingService) {}
 
   ngOnInit(): void {}
 }

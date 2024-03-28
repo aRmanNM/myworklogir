@@ -7,6 +7,7 @@ import { IonModule } from "src/app/shared/ion.module";
 import { WorkplaceModalComponent } from "./workplace.modal";
 import { addOutline } from "ionicons/icons";
 import { CommonModule } from "@angular/common";
+import { LoadingService } from "src/app/services/loading.service";
 
 @Component({
   selector: "app-workplace-page",
@@ -18,16 +19,14 @@ import { CommonModule } from "@angular/common";
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <ion-title>پروژه</ion-title>
+        <ion-progress-bar
+          type="indeterminate"
+          *ngIf="loadingService.visibility | async"
+        ></ion-progress-bar>
       </ion-toolbar>
     </ion-header>
 
     <ion-content [fullscreen]="true" color="light">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">پروژه</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
       <ion-accordion-group>
         <ion-accordion
           value="{{ workplace.id }}"
@@ -64,7 +63,8 @@ export class WorkplacePage implements OnInit {
 
   constructor(
     private workplaceService: WorkplaceService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    public loadingService: LoadingService
   ) {
     addIcons({ addOutline });
   }
