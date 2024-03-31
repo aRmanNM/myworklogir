@@ -1,6 +1,7 @@
 
 using System.Reflection.Metadata;
 using api.Persistence;
+using Microsoft.EntityFrameworkCore;
 using OpenIddict.Abstractions;
 
 namespace api.Services;
@@ -23,7 +24,7 @@ public class InitializerService : BackgroundService
         using var scope = _serviceProvider.CreateScope();
 
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        await context.Database.EnsureCreatedAsync();
+        await context.Database.MigrateAsync();
 
         await InitializeScopes(scope, stoppingToken);
         await InitializeApps(scope, stoppingToken);
