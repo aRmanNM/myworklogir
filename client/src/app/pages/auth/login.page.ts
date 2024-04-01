@@ -38,7 +38,7 @@ import { IonModule } from "src/app/shared/ion.module";
     `
       ion-content {
         width: 100%;
-        heigh: 100%;
+        height: 100%;
       }
 
       #container {

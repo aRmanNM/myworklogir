@@ -36,6 +36,11 @@ import { IonModule } from "src/app/shared/ion.module";
   `,
   styles: [
     `
+      ion-content {
+        width: 100%;
+        height: 100%;
+      }
+
       #container {
         text-align: center;
         position: absolute;
