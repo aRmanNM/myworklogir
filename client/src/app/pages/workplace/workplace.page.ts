@@ -19,14 +19,18 @@ import { LoadingService } from "src/app/services/loading.service";
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <ion-title>پروژه</ion-title>
-        <ion-progress-bar
-          type="indeterminate"
-          *ngIf="loadingService.visibility | async"
-        ></ion-progress-bar>
       </ion-toolbar>
+      <ion-progress-bar
+        type="indeterminate"
+        *ngIf="loadingService.visibility | async"
+      ></ion-progress-bar>
     </ion-header>
 
-    <ion-content [fullscreen]="true" color="light">
+    <ion-content
+      [fullscreen]="true"
+      color="light"
+      *ngIf="!(loadingService.visibility | async)"
+    >
       <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
@@ -80,6 +84,7 @@ export class WorkplacePage implements OnInit {
   ngOnInit(): void {}
 
   getAll() {
+    this.workplaceDetails = [];
     this.workplaceService.getAll().subscribe((res) => {
       this.workplaceDetails = res;
     });

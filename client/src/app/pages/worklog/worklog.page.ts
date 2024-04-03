@@ -94,6 +94,7 @@ export class WorkLogPage implements OnInit {
   ngOnInit(): void {}
 
   getAll() {
+    this.worklogDetails = [];
     this.worklogService.getAll().subscribe((res) => {
       this.worklogDetails = res;
 

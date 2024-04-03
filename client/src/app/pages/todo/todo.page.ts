@@ -34,21 +34,27 @@ import { LoadingService } from "src/app/services/loading.service";
             ></ion-icon>
           </ion-button>
         </ion-buttons>
-        <ion-progress-bar
-          type="indeterminate"
-          *ngIf="loadingService.visibility | async"
-        ></ion-progress-bar>
       </ion-toolbar>
+      <ion-progress-bar
+        type="indeterminate"
+        *ngIf="loadingService.visibility | async"
+      ></ion-progress-bar>
     </ion-header>
     <ion-content [fullscreen]="true" color="light">
       <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
 
-      <ion-accordion-group>
+      <ion-accordion-group *ngIf="!(loadingService.visibility | async)">
         <ion-accordion value="{{ todo.id }}" *ngFor="let todo of todoDetails">
           <ion-item slot="header">
-            <ion-label dir="auto">{{ todo.title }}</ion-label>
+            <ion-checkbox
+              (click)="toggle(todo.id, $event)"
+              [checked]="todo.isCompleted"
+            ></ion-checkbox>
+            <ion-label dir="auto" class="ion-margin">{{
+              todo.title
+            }}</ion-label>
           </ion-item>
           <ion-item slot="content">
             <ion-label color="dark" dir="auto">
@@ -124,6 +130,7 @@ export class TodoPage implements OnInit {
   ngOnInit() {}
 
   getAll() {
+    this.todoDetails = [];
     this.todoService.getAll().subscribe((res) => {
       this.todoDetails = res;
     });
@@ -161,7 +168,8 @@ export class TodoPage implements OnInit {
     });
   }
 
-  toggle(id: number) {
+  toggle(id: number, event: any) {
+    event.stopPropagation();
     this.todoService.toggle(id).subscribe((res) => {
       this.getAll();
     });

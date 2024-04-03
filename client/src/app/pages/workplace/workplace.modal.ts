@@ -6,6 +6,7 @@ import {
   WorkplaceCreateModel,
   WorkplaceUpdateModel,
 } from "src/app/contracts/workplace";
+import { LoadingService } from "src/app/services/loading.service";
 import { IonModule } from "src/app/shared/ion.module";
 
 @Component({
@@ -26,7 +27,10 @@ import { IonModule } from "src/app/shared/ion.module";
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
+    <ion-content
+      class="ion-padding"
+      *ngIf="!(loadingService.visibility | async)"
+    >
       <ion-item>
         <ion-input
           label="نام:"
@@ -44,7 +48,10 @@ export class WorkplaceModalComponent implements OnInit {
   id?: number;
   name: string = "";
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor(
+    private modalCtrl: ModalController,
+    public loadingService: LoadingService
+  ) {}
 
   ngOnInit(): void {}
 
