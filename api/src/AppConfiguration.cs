@@ -4,6 +4,7 @@ using api.Persistence.Entities;
 using api.Persistence.Interceptors;
 using api.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using static api.Constants;
@@ -15,6 +16,11 @@ public static class AppConfiguration
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddControllers();
+
+        services.Configure<ForwardedHeadersOptions>(options =>
+        {
+            options.ForwardedHeaders = ForwardedHeaders.All;
+        });
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
