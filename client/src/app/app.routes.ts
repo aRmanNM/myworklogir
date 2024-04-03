@@ -14,6 +14,11 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
+        path: "",
+        redirectTo: "todo",
+        pathMatch: "full",
+      },
+      {
         path: "todo",
         loadComponent: () =>
           import("./pages/todo/todo.page").then((m) => m.TodoPage),

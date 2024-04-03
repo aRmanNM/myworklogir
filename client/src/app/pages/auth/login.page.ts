@@ -1,7 +1,7 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { Router, RouterModule } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { AuthService } from "src/app/services/auth.service";
 import { IonModule } from "src/app/shared/ion.module";
 
@@ -27,7 +27,7 @@ import { IonModule } from "src/app/shared/ion.module";
             formControlName="password"
           ></ion-input>
           <ion-button type="submit" (click)="login()">ورود</ion-button>
-          <ion-button fill="clear" [routerLink]="['/page/auth/register']"
+          <ion-button fill="clear" [routerLink]="['/auth/register']"
             >ثبت نام</ion-button
           >
         </form>
@@ -59,12 +59,25 @@ export class LoginPage implements OnInit {
     password: new FormControl(""),
   });
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {}
 
-  login() {
-    this.authService.login(this.loginForm.value);
-    this.router.navigate(["/dashboard/todo"]); // TODO: replace this with returnUrl
+  async login() {
+    await this.authService.login(this.loginForm.value);
+
+    this.activatedRoute.queryParams.subscribe((params) => {
+      const returnUrl = params["returnUrl"];
+
+      if (returnUrl) {
+        this.router.navigateByUrl(returnUrl);
+      } else {
+        this.router.navigate(["/dashboard/worklog"]);
+      }
+    });
   }
 }

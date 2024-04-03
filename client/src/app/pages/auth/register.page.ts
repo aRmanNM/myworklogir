@@ -27,7 +27,7 @@ import { IonModule } from "src/app/shared/ion.module";
             formControlName="password"
           ></ion-input>
           <ion-button type="submit" (click)="register()">ثبت نام</ion-button>
-          <ion-button fill="clear" [routerLink]="['/page/auth/login']"
+          <ion-button fill="clear" [routerLink]="['/auth/login']"
             >ورود</ion-button
           >
         </form>

@@ -23,7 +23,9 @@ export const TokenInterceptor: HttpInterceptorFn = (req, next) => {
     tap({
       error: (res) => {
         if (res.status == 401) {
-          router.navigate(["auth/login"]);
+          router.navigate(["auth/login"], {
+            queryParams: { returnUrl: router.url },
+          });
         }
       },
     })
