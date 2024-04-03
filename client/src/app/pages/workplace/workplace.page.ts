@@ -27,6 +27,10 @@ import { LoadingService } from "src/app/services/loading.service";
     </ion-header>
 
     <ion-content [fullscreen]="true" color="light">
+      <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+
       <ion-accordion-group>
         <ion-accordion
           value="{{ workplace.id }}"
@@ -109,5 +113,10 @@ export class WorkplacePage implements OnInit {
     this.workplaceService.delete(id).subscribe((res) => {
       this.getAll();
     });
+  }
+
+  async handleRefresh(event: any) {
+    await this.getAll();
+    event.target.complete();
   }
 }

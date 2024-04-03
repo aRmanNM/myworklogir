@@ -24,6 +24,8 @@ import {
   IonSelectOption,
   IonPopover,
   IonProgressBar,
+  IonRefresher,
+  IonRefresherContent,
 } from "@ionic/angular/standalone";
 
 @NgModule({
@@ -53,6 +55,8 @@ import {
     IonSelectOption,
     IonPopover,
     IonProgressBar,
+    IonRefresher,
+    IonRefresherContent,
   ],
   exports: [
     IonHeader,
@@ -79,6 +83,8 @@ import {
     IonSelectOption,
     IonPopover,
     IonProgressBar,
+    IonRefresher,
+    IonRefresherContent,
   ],
   providers: [],
 })

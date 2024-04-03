@@ -32,6 +32,10 @@ import { LoadingService } from "src/app/services/loading.service";
     </ion-header>
 
     <ion-content [fullscreen]="true" color="light">
+      <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+
       <ion-accordion-group>
         <ion-accordion
           value="{{ worklog.id }}"
@@ -163,5 +167,10 @@ export class WorkLogPage implements OnInit {
         this.getAll();
       });
     }
+  }
+
+  async handleRefresh(event: any) {
+    await this.getAll();
+    event.target.complete();
   }
 }
