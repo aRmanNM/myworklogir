@@ -7,6 +7,7 @@ import * as moment from "moment";
 })
 export class DurationPipe implements PipeTransform {
   transform(value: string): string {
+    if (value == "0") return "-";
     const duration = moment.duration(value);
     return (
       duration.hours().toString().padStart(2, "0") +

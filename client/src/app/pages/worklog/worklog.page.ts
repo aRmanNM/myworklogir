@@ -117,7 +117,7 @@ export class WorkLogPage implements OnInit {
 
   start() {
     const startModel: WorkLogStartModel = {
-      title: `ورکلاگ جدید (بدون عنوان)`,
+      title: `-`,
     };
 
     this.worklogService.start(startModel).subscribe(async (res) => {
