@@ -23,6 +23,8 @@
     "@angular/router": "^17.0.2",
     "@ionic/angular": "^7.5.0",
     "ionicons": "^7.2.1",
+    "jalali-moment": "^3.3.11",
+    "moment": "^2.30.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"

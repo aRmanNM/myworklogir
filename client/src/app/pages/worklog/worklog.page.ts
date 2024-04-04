@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { addIcons } from "ionicons";
 import {
@@ -13,6 +13,8 @@ import { ModalController } from "@ionic/angular/standalone";
 import { TimerModalComponent } from "./timer.modal";
 import { WorkLogModalComponent } from "./worklog.modal";
 import { LoadingService } from "src/app/services/loading.service";
+import { DurationPipe } from "src/app/pipes/duration.pipe";
+import { PersianDatePipe } from "src/app/pipes/persian-date.pipe";
 
 @Component({
   selector: "app-worklog-page",
@@ -36,7 +38,7 @@ import { LoadingService } from "src/app/services/loading.service";
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
 
-      <ion-accordion-group>
+      <ion-accordion-group *ngIf="!(loadingService.visibility | async)">
         <ion-accordion
           value="{{ worklog.id }}"
           *ngFor="let worklog of worklogDetails"
@@ -44,13 +46,18 @@ import { LoadingService } from "src/app/services/loading.service";
           <ion-item slot="header">
             <ion-label dir="auto">
               <h3>{{ worklog.title }}</h3>
-              <p>{{ worklog.duration }}</p>
+              <p>{{ worklog.duration | duration }}</p>
             </ion-label>
           </ion-item>
           <ion-item slot="content">
-            <ion-label color="dark" dir="auto">{{
-              worklog.description || "بدون توضیح"
-            }}</ion-label>
+            <ion-label color="dark" dir="auto">
+              <h3>{{ worklog.description || "بدون توضیح" }}</h3>
+              <p>{{worklog.workplaceName}}</p>
+              <p>
+                از {{ worklog.startedAt | persianDate }} تا
+                {{ worklog.finishedAt | persianDate }}
+              </p>
+            </ion-label>
           </ion-item>
           <ion-item slot="content">
             <ion-buttons slot="end">
@@ -73,7 +80,7 @@ import { LoadingService } from "src/app/services/loading.service";
     </ion-content>
   `,
   styles: [``],
-  imports: [IonModule, CommonModule],
+  imports: [IonModule, CommonModule, DurationPipe, PersianDatePipe],
   providers: [WorkLogService],
 })
 export class WorkLogPage implements OnInit {
