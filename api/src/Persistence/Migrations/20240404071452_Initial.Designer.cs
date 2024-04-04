@@ -12,8 +12,8 @@ using api.Persistence;
 namespace api.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240322182412_WorkLog")]
-    partial class WorkLog
+    [Migration("20240404071452_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -393,6 +393,9 @@ namespace api.Persistence.Migrations
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastEditedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -402,7 +405,12 @@ namespace api.Persistence.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("WorkplaceId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("WorkplaceId");
 
                     b.ToTable("Todo");
                 });
@@ -491,6 +499,9 @@ namespace api.Persistence.Migrations
                     b.Property<DateTime?>("FinishedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("LastEditedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -506,9 +517,33 @@ namespace api.Persistence.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("WorkplaceId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("WorkplaceId");
+
                     b.ToTable("WorkLog");
+                });
+
+            modelBuilder.Entity("api.Persistence.Entities.Workplace", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Workplace");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -584,6 +619,24 @@ namespace api.Persistence.Migrations
                     b.Navigation("Application");
 
                     b.Navigation("Authorization");
+                });
+
+            modelBuilder.Entity("api.Persistence.Entities.Todo", b =>
+                {
+                    b.HasOne("api.Persistence.Entities.Workplace", "Workplace")
+                        .WithMany()
+                        .HasForeignKey("WorkplaceId");
+
+                    b.Navigation("Workplace");
+                });
+
+            modelBuilder.Entity("api.Persistence.Entities.WorkLog", b =>
+                {
+                    b.HasOne("api.Persistence.Entities.Workplace", "Workplace")
+                        .WithMany()
+                        .HasForeignKey("WorkplaceId");
+
+                    b.Navigation("Workplace");
                 });
 
             modelBuilder.Entity("OpenIddict.EntityFrameworkCore.Models.OpenIddictEntityFrameworkCoreApplication<int>", b =>

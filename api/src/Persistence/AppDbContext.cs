@@ -25,4 +25,19 @@ public class AppDbContext : IdentityDbContext<User, Role, int>
         optionsBuilder.AddInterceptors(_appSaveChangesInterceptor);
         base.OnConfiguring(optionsBuilder);
     }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.Entity<Todo>(b =>
+        {
+            b.HasQueryFilter(p => !p.IsDeleted);
+        });
+
+        builder.Entity<WorkLog>(b =>
+        {
+            b.HasQueryFilter(p => !p.IsDeleted);
+        });
+
+        base.OnModelCreating(builder);
+    }
 }

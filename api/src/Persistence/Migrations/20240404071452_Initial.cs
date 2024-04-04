@@ -101,22 +101,17 @@ namespace api.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Todo",
+                name: "Workplace",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<int>(type: "integer", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    IsCompleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CompletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastEditedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    Name = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Todo", x => x.Id);
+                    table.PrimaryKey("PK_Workplace", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -251,6 +246,59 @@ namespace api.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Todo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    WorkplaceId = table.Column<int>(type: "integer", nullable: true),
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    IsCompleted = table.Column<bool>(type: "boolean", nullable: false),
+                    CompletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastEditedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Todo", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Todo_Workplace_WorkplaceId",
+                        column: x => x.WorkplaceId,
+                        principalTable: "Workplace",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WorkLog",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    WorkplaceId = table.Column<int>(type: "integer", nullable: true),
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    StartedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    FinishedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastEditedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkLog", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WorkLog_Workplace_WorkplaceId",
+                        column: x => x.WorkplaceId,
+                        principalTable: "Workplace",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OpenIddictTokens",
                 columns: table => new
                 {
@@ -353,6 +401,16 @@ namespace api.Persistence.Migrations
                 table: "OpenIddictTokens",
                 column: "ReferenceId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Todo_WorkplaceId",
+                table: "Todo",
+                column: "WorkplaceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkLog_WorkplaceId",
+                table: "WorkLog",
+                column: "WorkplaceId");
         }
 
         /// <inheritdoc />
@@ -383,6 +441,9 @@ namespace api.Persistence.Migrations
                 name: "Todo");
 
             migrationBuilder.DropTable(
+                name: "WorkLog");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -390,6 +451,9 @@ namespace api.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "OpenIddictAuthorizations");
+
+            migrationBuilder.DropTable(
+                name: "Workplace");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictApplications");

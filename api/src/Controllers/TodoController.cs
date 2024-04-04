@@ -135,4 +135,20 @@ public class TodoController : ControllerBase
 
         return Ok();
     }
+
+    [HttpDelete("all")]
+    public async Task<IActionResult> DeleteAll()
+    {
+        var userId = _currentUserService.UserId;
+
+        var todo = await _context.Todo
+            .Where(t => t.UserId == userId)
+            .ToListAsync();
+
+        _context.Todo.RemoveRange(todo);
+
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
 }

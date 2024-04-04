@@ -24,7 +24,7 @@ import { LoadingService } from "src/app/services/loading.service";
         <ion-buttons slot="start">
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>تسکها</ion-title>
+        <ion-title>تسک</ion-title>
         <ion-buttons slot="primary">
           <ion-button id="click-trigger">
             <ion-icon
@@ -86,11 +86,11 @@ import { LoadingService } from "src/app/services/loading.service";
       <ng-template>
         <ion-content>
           <ion-list>
-            <ion-item lines="none">
+            <ion-item (click)="exportExcel()" lines="none">
               <ion-icon name="download-outline"></ion-icon>
               <ion-label class="ion-padding-start">خروجی اکسل</ion-label>
             </ion-item>
-            <ion-item lines="none">
+            <ion-item (click)="deleteAll()" lines="none">
               <ion-icon name="trash-outline"></ion-icon>
               <ion-label class="ion-padding-start">حذف همه</ion-label>
             </ion-item>
@@ -168,6 +168,12 @@ export class TodoPage implements OnInit {
     });
   }
 
+  deleteAll() {
+    this.todoService.deleteAll().subscribe((res) => {
+      this.getAll();
+    });
+  }
+
   toggle(id: number, event: any) {
     event.stopPropagation();
     this.todoService.toggle(id).subscribe((res) => {
@@ -179,4 +185,6 @@ export class TodoPage implements OnInit {
     await this.getAll();
     event.target.complete();
   }
+
+  exportExcel() {}
 }

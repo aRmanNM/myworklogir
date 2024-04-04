@@ -21,10 +21,7 @@ export class TodoService {
   }
 
   create(todoCreateModel: TodoCreateModel): Observable<TodoDetailModel> {
-    return this.httpClient.post<TodoDetailModel>(
-      this.baseUrl,
-      todoCreateModel
-    );
+    return this.httpClient.post<TodoDetailModel>(this.baseUrl, todoCreateModel);
   }
 
   update(todoUpdateModel: TodoUpdateModel): Observable<void> {
@@ -36,6 +33,10 @@ export class TodoService {
 
   delete(id: number): Observable<void> {
     return this.httpClient.delete<void>(this.baseUrl + `/${id}`);
+  }
+
+  deleteAll(): Observable<void> {
+    return this.httpClient.delete<void>(this.baseUrl + `/all`);
   }
 
   toggle(id: number): Observable<void> {

@@ -39,6 +39,12 @@ public class AppSaveChangesInterceptor : SaveChangesInterceptor
             {
                 entry.Entity.LastEditedAt = now;
             }
+            else if (entry.State == EntityState.Deleted)
+            {
+                entry.State = EntityState.Modified;
+                entry.Entity.IsDeleted = true;
+                entry.Entity.LastEditedAt = now;
+            }
         }
     }
 }

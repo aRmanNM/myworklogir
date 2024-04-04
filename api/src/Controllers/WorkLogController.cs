@@ -156,4 +156,20 @@ public class WorkLogController : ControllerBase
 
         return Ok();
     }
+
+    [HttpDelete("all")]
+    public async Task<IActionResult> DeleteAll()
+    {
+        var userId = _currentUserService.UserId;
+
+        var workLogs = await _context.WorkLog
+            .Where(t => t.UserId == userId)
+            .ToListAsync();
+
+        _context.WorkLog.RemoveRange(workLogs);
+
+        await _context.SaveChangesAsync();
+
+        return Ok();
+    }
 }
