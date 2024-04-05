@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { addIcons } from "ionicons";
 import {
@@ -52,7 +52,7 @@ import { PersianDatePipe } from "src/app/pipes/persian-date.pipe";
           <ion-item slot="content">
             <ion-label color="dark" dir="auto">
               <h3>{{ worklog.description || "بدون توضیح" }}</h3>
-              <p>{{worklog.workplaceName}}</p>
+              <p>{{ worklog.workplaceName }}</p>
               <p>
                 از {{ worklog.startedAt | persianDate }} تا
                 {{ worklog.finishedAt | persianDate }}
@@ -139,6 +139,8 @@ export class WorkLogPage implements OnInit {
         title: worklog?.title,
         description: worklog?.description,
         workplaceId: worklog?.workplaceId,
+        startedAt: worklog?.startedAt,
+        finishedAt: worklog?.finishedAt,
       },
     });
 

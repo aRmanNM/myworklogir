@@ -24,6 +24,8 @@ export interface WorkLogUpdateModel {
   id: number;
   title: string;
   description: string | null;
+  startedAt: string;
+  finishedAt: string;
   workplaceId: number | null;
 }
 

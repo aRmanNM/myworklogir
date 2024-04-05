@@ -103,6 +103,8 @@ export class WorkLogModalComponent implements OnInit {
       title: this.title,
       description: this.description,
       workplaceId: this.workplaceId ?? null,
+      startedAt: this.startedAt,
+      finishedAt: this.finishedAt,
     };
 
     return this.modalCtrl.dismiss(data, "update");

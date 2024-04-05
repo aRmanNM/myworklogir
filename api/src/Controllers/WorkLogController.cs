@@ -81,6 +81,8 @@ public class WorkLogController : ControllerBase
         workLog.Title = model.Title;
         workLog.Description = model.Description;
         workLog.WorkplaceId = model.WorkplaceId;
+        workLog.StartedAt = model.StartedAt;
+        workLog.FinishedAt = model.FinishedAt;
 
         await _context.SaveChangesAsync();
 
