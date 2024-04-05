@@ -21,6 +21,7 @@ import { WorkLogModalComponent } from "./worklog.modal";
 import { LoadingService } from "src/app/services/loading.service";
 import { DurationPipe } from "src/app/pipes/duration.pipe";
 import { PersianDatePipe } from "src/app/pipes/persian-date.pipe";
+import { ConfirmService } from "src/app/services/confirm.service";
 
 @Component({
   selector: "app-worklog-page",
@@ -94,7 +95,11 @@ import { PersianDatePipe } from "src/app/pipes/persian-date.pipe";
       </ion-fab>
     </ion-content>
 
-    <ion-popover trigger="worklog-overflow-click-trigger" triggerAction="click">
+    <ion-popover
+      trigger="worklog-overflow-click-trigger"
+      triggerAction="click"
+      dismissOnSelect="true"
+    >
       <ng-template>
         <ion-content>
           <ion-list>
@@ -121,7 +126,8 @@ export class WorkLogPage implements OnInit {
   constructor(
     private worklogService: WorkLogService,
     private modalCtrl: ModalController,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private confirmService: ConfirmService
   ) {
     addIcons({
       stopwatchOutline,
@@ -163,10 +169,13 @@ export class WorkLogPage implements OnInit {
     });
   }
 
-  delete(id: number) {
-    this.worklogService.delete(id).subscribe((res) => {
-      this.getAll();
-    });
+  async delete(id: number) {
+    var confirmed = await this.confirmService.confirmDelete();
+    if (confirmed) {
+      this.worklogService.delete(id).subscribe((res) => {
+        this.getAll();
+      });
+    }
   }
 
   async openModal(worklog?: WorkLogDetailModel) {
@@ -222,9 +231,12 @@ export class WorkLogPage implements OnInit {
     event.target.complete();
   }
 
-  deleteAll() {
-    this.worklogService.deleteAll().subscribe(() => {
-      this.getAll();
-    });
+  async deleteAll() {
+    var confirmed = await this.confirmService.confirmDelete();
+    if (confirmed) {
+      this.worklogService.deleteAll().subscribe(() => {
+        this.getAll();
+      });
+    }
   }
 }

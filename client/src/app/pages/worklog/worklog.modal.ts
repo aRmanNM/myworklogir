@@ -49,7 +49,7 @@ import { IonModule } from "src/app/shared/ion.module";
         label="شروع:"
         labelPlacement="stacked"
         type="text"
-        placeholder=""
+        [placeholder]="now | persianDate"
         [(ngModel)]="startedAtPersian"
       ></ion-input>
       <ion-input
@@ -57,7 +57,7 @@ import { IonModule } from "src/app/shared/ion.module";
         label="پایان:"
         labelPlacement="stacked"
         type="text"
-        placeholder=""
+        [placeholder]="now | persianDate"
         [(ngModel)]="finishedAtPersian"
       ></ion-input>
       <ion-select
@@ -84,6 +84,8 @@ export class WorkLogModalComponent implements OnInit {
   title: string = "";
   description: string = "";
   workplaceId?: number;
+
+  now: string = new Date().toString();
 
   startedAtPersian: string = "";
   finishedAtPersian: string = "";

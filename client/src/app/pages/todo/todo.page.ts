@@ -13,8 +13,11 @@ import { IonModule } from "src/app/shared/ion.module";
 import { TodoDetailModel } from "src/app/contracts/todo";
 import { TodoService } from "src/app/services/todo.service";
 import { TodoModalComponent } from "./todo.modal";
-import { ModalController } from "@ionic/angular/standalone";
+import {
+  ModalController,
+} from "@ionic/angular/standalone";
 import { LoadingService } from "src/app/services/loading.service";
+import { ConfirmService } from "src/app/services/confirm.service";
 
 @Component({
   selector: "app-todo-page",
@@ -82,7 +85,7 @@ import { LoadingService } from "src/app/services/loading.service";
       </ion-fab>
     </ion-content>
 
-    <ion-popover trigger="click-trigger" triggerAction="click">
+    <ion-popover trigger="click-trigger" triggerAction="click" dismissOnSelect="true">
       <ng-template>
         <ion-content>
           <ion-list>
@@ -112,7 +115,8 @@ export class TodoPage implements OnInit {
   constructor(
     private todoService: TodoService,
     private modalCtrl: ModalController,
-    public loadingService: LoadingService
+    public loadingService: LoadingService,
+    private confirmService: ConfirmService
   ) {
     addIcons({
       addOutline,
@@ -162,16 +166,22 @@ export class TodoPage implements OnInit {
     }
   }
 
-  delete(id: number) {
-    this.todoService.delete(id).subscribe((res) => {
-      this.getAll();
-    });
+  async delete(id: number) {
+    var confirmed = await this.confirmService.confirmDelete();
+    if (confirmed) {
+      this.todoService.delete(id).subscribe((res) => {
+        this.getAll();
+      });
+    }
   }
 
-  deleteAll() {
-    this.todoService.deleteAll().subscribe((res) => {
-      this.getAll();
-    });
+  async deleteAll() {
+    var confirmed = await this.confirmService.confirmDelete();
+    if (confirmed) {
+      this.todoService.deleteAll().subscribe((res) => {
+        this.getAll();
+      });
+    }
   }
 
   toggle(id: number, event: any) {
