@@ -8,7 +8,13 @@ import {
 } from "src/app/contracts/worklog";
 import { WorkLogService } from "src/app/services/worklog.service";
 import { IonModule } from "src/app/shared/ion.module";
-import { stopwatchOutline } from "ionicons/icons";
+import {
+  addOutline,
+  ellipsisHorizontal,
+  ellipsisVertical,
+  stopwatchOutline,
+  trashOutline,
+} from "ionicons/icons";
 import { ModalController } from "@ionic/angular/standalone";
 import { TimerModalComponent } from "./timer.modal";
 import { WorkLogModalComponent } from "./worklog.modal";
@@ -26,6 +32,15 @@ import { PersianDatePipe } from "src/app/pipes/persian-date.pipe";
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <ion-title>ورکلاگ</ion-title>
+        <ion-buttons slot="primary">
+          <ion-button id="worklog-overflow-click-trigger">
+            <ion-icon
+              slot="icon-only"
+              ios="ellipsis-horizontal"
+              md="ellipsis-vertical"
+            ></ion-icon>
+          </ion-button>
+        </ion-buttons>
       </ion-toolbar>
       <ion-progress-bar
         type="indeterminate"
@@ -78,6 +93,23 @@ import { PersianDatePipe } from "src/app/pipes/persian-date.pipe";
         </ion-fab-button>
       </ion-fab>
     </ion-content>
+
+    <ion-popover trigger="worklog-overflow-click-trigger" triggerAction="click">
+      <ng-template>
+        <ion-content>
+          <ion-list>
+            <ion-item (click)="openModal()" lines="none">
+              <ion-icon name="add-outline"></ion-icon>
+              <ion-label class="ion-padding-start">افزودن سابقه</ion-label>
+            </ion-item>
+            <ion-item (click)="deleteAll()" lines="none">
+              <ion-icon name="trash-outline"></ion-icon>
+              <ion-label class="ion-padding-start">حذف همه</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
   `,
   styles: [``],
   imports: [IonModule, CommonModule, DurationPipe, PersianDatePipe],
@@ -91,7 +123,13 @@ export class WorkLogPage implements OnInit {
     private modalCtrl: ModalController,
     public loadingService: LoadingService
   ) {
-    addIcons({ stopwatchOutline });
+    addIcons({
+      stopwatchOutline,
+      addOutline,
+      ellipsisVertical,
+      ellipsisHorizontal,
+      trashOutline,
+    });
   }
 
   ionViewDidEnter() {
@@ -182,5 +220,11 @@ export class WorkLogPage implements OnInit {
   async handleRefresh(event: any) {
     await this.getAll();
     event.target.complete();
+  }
+
+  deleteAll() {
+    this.worklogService.deleteAll().subscribe(() => {
+      this.getAll();
+    });
   }
 }

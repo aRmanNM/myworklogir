@@ -45,4 +45,8 @@ export class WorkLogService {
   delete(id: number) {
     return this.httpClient.delete(this.baseUrl + `/${id}`);
   }
+
+  deleteAll() {
+    return this.httpClient.delete(this.baseUrl + `/all`);
+  }
 }
