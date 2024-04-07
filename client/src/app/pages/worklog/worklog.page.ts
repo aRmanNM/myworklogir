@@ -69,7 +69,7 @@ import { ConfirmService } from "src/app/services/confirm.service";
             <ion-label color="dark" dir="auto">
               <h3>{{ worklog.description || "بدون توضیح" }}</h3>
               <p>{{ worklog.workplaceName }}</p>
-              <p>
+              <p dir="rtl">
                 از {{ worklog.startedAt | persianDate }} تا
                 {{ worklog.finishedAt | persianDate }}
               </p>

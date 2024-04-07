@@ -13,9 +13,7 @@ import { IonModule } from "src/app/shared/ion.module";
 import { TodoDetailModel } from "src/app/contracts/todo";
 import { TodoService } from "src/app/services/todo.service";
 import { TodoModalComponent } from "./todo.modal";
-import {
-  ModalController,
-} from "@ionic/angular/standalone";
+import { ModalController } from "@ionic/angular/standalone";
 import { LoadingService } from "src/app/services/loading.service";
 import { ConfirmService } from "src/app/services/confirm.service";
 
@@ -55,9 +53,12 @@ import { ConfirmService } from "src/app/services/confirm.service";
               (click)="toggle(todo.id, $event)"
               [checked]="todo.isCompleted"
             ></ion-checkbox>
-            <ion-label dir="auto" class="ion-margin">{{
-              todo.title
-            }}</ion-label>
+            <ion-label
+              dir="auto"
+              class="ion-margin"
+              [ngStyle]="{'text-decoration': todo.isCompleted ? 'line-through' : 'none' + ')'}"
+              >{{ todo.title }}</ion-label
+            >
           </ion-item>
           <ion-item slot="content">
             <ion-label color="dark" dir="auto">
@@ -85,7 +86,11 @@ import { ConfirmService } from "src/app/services/confirm.service";
       </ion-fab>
     </ion-content>
 
-    <ion-popover trigger="click-trigger" triggerAction="click" dismissOnSelect="true">
+    <ion-popover
+      trigger="click-trigger"
+      triggerAction="click"
+      dismissOnSelect="true"
+    >
       <ng-template>
         <ion-content>
           <ion-list>

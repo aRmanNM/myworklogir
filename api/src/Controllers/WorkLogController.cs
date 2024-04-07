@@ -33,7 +33,7 @@ public class WorkLogController : ControllerBase
         var userId = _currentUserService.UserId;
         var workLogItems = await _context.WorkLog
             .AsNoTracking()
-            .OrderBy(t => t.CreatedAt)
+            .OrderByDescending(t => t.CreatedAt)
             .Where(t => t.UserId == userId)
             .ProjectToWorkLogDetailModel()
             .ToListAsync();
