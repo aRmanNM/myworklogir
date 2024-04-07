@@ -138,25 +138,18 @@ export class WorkLogPage implements OnInit {
     });
   }
 
-  ionViewDidEnter() {
-    this.getAll();
-  }
-
-  ngOnInit(): void {}
-
-  getAll() {
-    this.worklogDetails = [];
-    this.worklogService.getAll().subscribe((res) => {
+  ngOnInit(): void {
+    this.worklogService.worklogItems$.subscribe((res) => {
       this.worklogDetails = res;
-
-      const startedWorklog = this.worklogDetails.find(
-        (w) => w.status == WorkLogStatus.Started
-      );
-
-      if (startedWorklog != undefined) {
-        this.showTimerModal(startedWorklog);
-      }
     });
+
+    this.worklogService.startedWorklog$.subscribe(
+      (res: WorkLogDetailModel | any) => {
+        if (res != null) {
+          this.showTimerModal(res);
+        }
+      }
+    );
   }
 
   start() {
@@ -164,17 +157,13 @@ export class WorkLogPage implements OnInit {
       title: `-`,
     };
 
-    this.worklogService.start(startModel).subscribe(async (res) => {
-      await this.showTimerModal(res);
-    });
+    this.worklogService.start(startModel);
   }
 
   async delete(id: number) {
     var confirmed = await this.confirmService.confirmDelete();
     if (confirmed) {
-      this.worklogService.delete(id).subscribe((res) => {
-        this.getAll();
-      });
+      this.worklogService.delete(id);
     }
   }
 
@@ -196,13 +185,9 @@ export class WorkLogPage implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role == "create") {
-      this.worklogService.create(data).subscribe((res) => {
-        this.getAll();
-      });
+      this.worklogService.create(data);
     } else if (role == "update") {
-      this.worklogService.update(data).subscribe((res) => {
-        this.getAll();
-      });
+      this.worklogService.update(data);
     }
   }
 
@@ -220,23 +205,19 @@ export class WorkLogPage implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role == "finish") {
-      this.worklogService.finish(data).subscribe((res) => {
-        this.getAll();
-      });
+      this.worklogService.finish(data);
     }
   }
 
   async handleRefresh(event: any) {
-    await this.getAll();
+    await this.worklogService.getAll();
     event.target.complete();
   }
 
   async deleteAll() {
     var confirmed = await this.confirmService.confirmDelete();
     if (confirmed) {
-      this.worklogService.deleteAll().subscribe(() => {
-        this.getAll();
-      });
+      this.worklogService.deleteAll();
     }
   }
 }

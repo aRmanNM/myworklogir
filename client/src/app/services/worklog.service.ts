@@ -1,11 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import {
   WorkLogCreateModel,
   WorkLogDetailModel,
   WorkLogStartModel,
+  WorkLogStatus,
   WorkLogUpdateModel,
 } from "../contracts/worklog";
 
@@ -14,39 +15,76 @@ import {
 })
 export class WorkLogService {
   baseUrl = environment.apiBaseUrl + "/worklog";
-  constructor(private httpClient: HttpClient) {}
 
-  getAll(): Observable<WorkLogDetailModel[]> {
-    return this.httpClient.get<WorkLogDetailModel[]>(this.baseUrl);
+  private readonly _worklogItems = new BehaviorSubject<WorkLogDetailModel[]>(
+    []
+  );
+  readonly worklogItems$ = this._worklogItems.asObservable();
+
+  private readonly _startedWorklog = new BehaviorSubject<any>(null);
+  readonly startedWorklog$ = this._startedWorklog.asObservable();
+
+  constructor(private httpClient: HttpClient) {
+    this.getAll();
+    this.checkWorking();
   }
 
-  start(startModel: WorkLogStartModel): Observable<WorkLogDetailModel> {
-    return this.httpClient.post<WorkLogDetailModel>(
-      this.baseUrl + "/start",
-      startModel
+  checkWorking() {
+    const startedWorklog = this._worklogItems.value.find(
+      (w) => w.status == WorkLogStatus.Started
     );
+
+    if (startedWorklog != undefined) {
+      this._startedWorklog.next(startedWorklog);
+    }
   }
 
-  create(createModel: WorkLogCreateModel): Observable<WorkLogDetailModel> {
-    return this.httpClient.post<WorkLogDetailModel>(this.baseUrl, createModel);
+  getAll() {
+    this.httpClient.get<WorkLogDetailModel[]>(this.baseUrl).subscribe((res) => {
+      this._worklogItems.next(res);
+      this.checkWorking();
+    });
   }
 
-  update(updateModel: WorkLogUpdateModel): Observable<WorkLogDetailModel> {
-    return this.httpClient.put<WorkLogDetailModel>(
-      this.baseUrl + `/${updateModel.id}`,
-      updateModel
-    );
+  start(startModel: WorkLogStartModel) {
+    this.httpClient
+      .post<WorkLogDetailModel>(this.baseUrl + "/start", startModel)
+      .subscribe(() => {
+        this.getAll();
+      });
+  }
+
+  create(createModel: WorkLogCreateModel) {
+    this.httpClient
+      .post<WorkLogDetailModel>(this.baseUrl, createModel)
+      .subscribe(() => {
+        this.getAll();
+      });
+  }
+
+  update(updateModel: WorkLogUpdateModel) {
+    this.httpClient
+      .put<WorkLogDetailModel>(this.baseUrl + `/${updateModel.id}`, updateModel)
+      .subscribe(() => {
+        this.getAll();
+      });
   }
 
   finish(id: number) {
-    return this.httpClient.put(this.baseUrl + `/${id}/finish`, {});
+    this.httpClient.put(this.baseUrl + `/${id}/finish`, {}).subscribe(() => {
+      this.getAll();
+    });
   }
 
   delete(id: number) {
-    return this.httpClient.delete(this.baseUrl + `/${id}`);
+    this.httpClient.delete(this.baseUrl + `/${id}`).subscribe(() => {
+      this.getAll();
+    });
   }
 
   deleteAll() {
-    return this.httpClient.delete(this.baseUrl + `/all`);
+    this.httpClient.delete(this.baseUrl + `/all`).subscribe(() => {
+      this.getAll();
+    });
   }
 }

@@ -6,31 +6,51 @@ import {
   WorkplaceDetailModel,
   WorkplaceUpdateModel,
 } from "../contracts/workplace";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class WorkplaceService {
   baseUrl = environment.apiBaseUrl + "/workplace";
-  constructor(private http: HttpClient) {}
 
-  getAll(): Observable<WorkplaceDetailModel[]> {
-    return this.http.get<WorkplaceDetailModel[]>(this.baseUrl);
+  private readonly _workplaceDetails = new BehaviorSubject<
+    WorkplaceDetailModel[]
+  >([]);
+  readonly workplaceDetails$ = this._workplaceDetails.asObservable();
+
+  constructor(private http: HttpClient) {
+    this.getAll();
   }
 
-  create(createModel: WorkplaceCreateModel): Observable<WorkplaceDetailModel> {
-    return this.http.post<WorkplaceDetailModel>(this.baseUrl, createModel);
+  getAll() {
+    this.http.get<WorkplaceDetailModel[]>(this.baseUrl).subscribe((res) => {
+      this._workplaceDetails.next(res);
+    });
   }
 
-  update(updateModel: WorkplaceUpdateModel): Observable<WorkplaceDetailModel> {
-    return this.http.put<WorkplaceDetailModel>(
-      this.baseUrl + `/${updateModel.id}`,
-      updateModel
-    );
+  create(createModel: WorkplaceCreateModel) {
+    this.http
+      .post<WorkplaceDetailModel>(this.baseUrl, createModel)
+      .subscribe(() => {
+        this.getAll();
+      });
+  }
+
+  update(updateModel: WorkplaceUpdateModel) {
+    this.http
+      .put<WorkplaceDetailModel>(
+        this.baseUrl + `/${updateModel.id}`,
+        updateModel
+      )
+      .subscribe(() => {
+        this.getAll();
+      });
   }
 
   delete(id: number) {
-    return this.http.delete(this.baseUrl + `/${id}`);
+    this.http.delete(this.baseUrl + `/${id}`).subscribe(() => {
+      this.getAll();
+    });
   }
 }

@@ -123,11 +123,7 @@ export class WorkLogModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getWorkplaces();
-  }
-
-  getWorkplaces() {
-    this.workplaceService.getAll().subscribe((res) => {
+    this.workplaceService.workplaceDetails$.subscribe((res) => {
       this.workplaces = res;
     });
   }

@@ -6,7 +6,7 @@ import {
   TodoUpdateModel,
 } from "../contracts/todo";
 import { environment } from "src/environments/environment";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -14,32 +14,52 @@ import { Observable } from "rxjs";
 export class TodoService {
   baseUrl = environment.apiBaseUrl + "/todo";
 
-  constructor(private httpClient: HttpClient) {}
+  private readonly _todoItems = new BehaviorSubject<TodoDetailModel[]>([]);
+  readonly todoItems$ = this._todoItems.asObservable();
 
-  getAll(): Observable<TodoDetailModel[]> {
-    return this.httpClient.get<TodoDetailModel[]>(this.baseUrl);
+  constructor(private httpClient: HttpClient) {
+    this.getAll();
   }
 
-  create(todoCreateModel: TodoCreateModel): Observable<TodoDetailModel> {
-    return this.httpClient.post<TodoDetailModel>(this.baseUrl, todoCreateModel);
+  getAll() {
+    this.httpClient.get<TodoDetailModel[]>(this.baseUrl).subscribe((res) => {
+      this._todoItems.next(res);
+    });
   }
 
-  update(todoUpdateModel: TodoUpdateModel): Observable<void> {
-    return this.httpClient.put<void>(
-      this.baseUrl + `/${todoUpdateModel.id}`,
-      todoUpdateModel
-    );
+  create(todoCreateModel: TodoCreateModel) {
+    this.httpClient
+      .post<TodoDetailModel>(this.baseUrl, todoCreateModel)
+      .subscribe(() => {
+        this.getAll();
+      });
   }
 
-  delete(id: number): Observable<void> {
-    return this.httpClient.delete<void>(this.baseUrl + `/${id}`);
+  update(todoUpdateModel: TodoUpdateModel) {
+    this.httpClient
+      .put<void>(this.baseUrl + `/${todoUpdateModel.id}`, todoUpdateModel)
+      .subscribe(() => {
+        this.getAll();
+      });
   }
 
-  deleteAll(): Observable<void> {
-    return this.httpClient.delete<void>(this.baseUrl + `/all`);
+  delete(id: number) {
+    this.httpClient.delete<void>(this.baseUrl + `/${id}`).subscribe(() => {
+      this.getAll();
+    });
   }
 
-  toggle(id: number): Observable<void> {
-    return this.httpClient.put<void>(this.baseUrl + `/${id}/toggle`, {});
+  deleteAll() {
+    this.httpClient.delete<void>(this.baseUrl + `/all`).subscribe(() => {
+      this.getAll();
+    });
+  }
+
+  toggle(id: number) {
+    this.httpClient
+      .put<void>(this.baseUrl + `/${id}/toggle`, {})
+      .subscribe(() => {
+        this.getAll();
+      });
   }
 }

@@ -77,15 +77,8 @@ export class WorkplacePage implements OnInit {
     addIcons({ addOutline });
   }
 
-  ionViewDidEnter() {
-    this.getAll();
-  }
-
-  ngOnInit(): void {}
-
-  getAll() {
-    this.workplaceDetails = [];
-    this.workplaceService.getAll().subscribe((res) => {
+  ngOnInit(): void {
+    this.workplaceService.workplaceDetails$.subscribe((res) => {
       this.workplaceDetails = res;
     });
   }
@@ -104,24 +97,18 @@ export class WorkplacePage implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role == "create") {
-      this.workplaceService.create(data).subscribe((res) => {
-        this.getAll();
-      });
+      this.workplaceService.create(data);
     } else if (role == "update") {
-      this.workplaceService.update(data).subscribe((res) => {
-        this.getAll();
-      });
+      this.workplaceService.update(data);
     }
   }
 
   delete(id: number) {
-    this.workplaceService.delete(id).subscribe((res) => {
-      this.getAll();
-    });
+    this.workplaceService.delete(id);
   }
 
   async handleRefresh(event: any) {
-    await this.getAll();
+    await this.workplaceService.getAll();
     event.target.complete();
   }
 }

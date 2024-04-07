@@ -56,7 +56,11 @@ import { ConfirmService } from "src/app/services/confirm.service";
             <ion-label
               dir="auto"
               class="ion-margin"
-              [ngStyle]="{'text-decoration': todo.isCompleted ? 'line-through' : 'none' + ')'}"
+              [ngStyle]="{
+                'text-decoration': todo.isCompleted
+                  ? 'line-through'
+                  : 'none' + ')'
+              }"
               >{{ todo.title }}</ion-label
             >
           </ion-item>
@@ -132,15 +136,8 @@ export class TodoPage implements OnInit {
     });
   }
 
-  ionViewDidEnter() {
-    this.getAll();
-  }
-
-  ngOnInit() {}
-
-  getAll() {
-    this.todoDetails = [];
-    this.todoService.getAll().subscribe((res) => {
+  ngOnInit() {
+    this.todoService.todoItems$.subscribe((res) => {
       this.todoDetails = res;
     });
   }
@@ -161,43 +158,33 @@ export class TodoPage implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role == "create") {
-      this.todoService.create(data).subscribe((res) => {
-        this.getAll();
-      });
+      this.todoService.create(data);
     } else if (role == "update") {
-      this.todoService.update(data).subscribe((res) => {
-        this.getAll();
-      });
+      this.todoService.update(data);
     }
   }
 
   async delete(id: number) {
     var confirmed = await this.confirmService.confirmDelete();
     if (confirmed) {
-      this.todoService.delete(id).subscribe((res) => {
-        this.getAll();
-      });
+      this.todoService.delete(id);
     }
   }
 
   async deleteAll() {
     var confirmed = await this.confirmService.confirmDelete();
     if (confirmed) {
-      this.todoService.deleteAll().subscribe((res) => {
-        this.getAll();
-      });
+      this.todoService.deleteAll();
     }
   }
 
   toggle(id: number, event: any) {
     event.stopPropagation();
-    this.todoService.toggle(id).subscribe((res) => {
-      this.getAll();
-    });
+    this.todoService.toggle(id);
   }
 
   async handleRefresh(event: any) {
-    await this.getAll();
+    await this.todoService.getAll();
     event.target.complete();
   }
 

@@ -30,7 +30,6 @@ export class AuthService {
           .set("Content-Type", "application/x-www-form-urlencoded"),
       })
       .subscribe((res: any) => {
-        // console.log(res.access_token);
         localStorage.setItem("t", res.access_token);
       });
   }
