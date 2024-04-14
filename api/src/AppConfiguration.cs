@@ -64,6 +64,8 @@ public static class AppConfiguration
                 options.SetIntrospectionEndpointUris("connect/introspect");
                 options.SetUserinfoEndpointUris("userinfo");
 
+                options.SetAccessTokenLifetime(TimeSpan.FromHours(24));
+
                 options.AllowPasswordFlow();
 
                 options.DisableScopeValidation();
